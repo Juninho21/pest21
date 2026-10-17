@@ -1,0 +1,222 @@
+<!--
+  Generated template for the PestCountingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "os_count.title" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm">
+    <ion-list no-lines>
+      <ion-item-group *ngIf="!devices?.length">
+        <ion-item-divider color="primary">
+          {{ "os_count.title" | translate }}
+        </ion-item-divider>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{ "os_count.no_devices" | translate }}</h2>
+          <p>{{ "os_count.info" | translate }}</p>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-group *ngIf="devices?.length">
+        <ion-item-divider color="primary">
+          {{ "os_count.title" | translate }}
+        </ion-item-divider>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <p>{{ "os_count.client_info" | translate }}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{ "os_count.device" | translate }}</ion-label>
+          <ionic-selectable
+            placeholder="{{ 'select' | translate }}"
+            required
+            item-content
+            [isMultiple]="false"
+            name="device"
+            [(ngModel)]="device"
+            [items]="devices"
+            itemValueField="id"
+            itemTextField="name"
+            (onChange)="deviceNumber = null; setDeviceNumbers(device.statuses)"
+            [canSearch]="true"
+            searchPlaceholder="{{ 'search' | translate }}"
+            searchFailText="{{ 'no_items_found' | translate }}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <!--<ion-item color="danger" padding text-wrap *ngIf="device && !deviceNumbers?.length">
+          <p color="danger">A contagem de todos os dispositivos deste tipo já foi informada.</p>
+        </ion-item>-->
+
+        <ion-item no-padding no-lines *ngIf="deviceNumbers?.length">
+          <ion-label stacked>{{ 'os_count.count_type' | translate }}</ion-label>
+          <ion-select
+            placeholder="{{ 'os_count.count_type' | translate }}"
+            [(ngModel)]="count_type"
+            (ionChange)="deviceNumber = null; deviceNumberMultiple = []"
+            name="count_type"
+          >
+            <ion-option value="with_plagues"
+              >{{ 'os_count.with_plagues' | translate }}</ion-option
+            >
+            <ion-option value="without_plagues"
+              >{{ 'os_count.without_plagues' | translate }}</ion-option
+            >
+          </ion-select>
+        </ion-item>
+
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="deviceNumbers?.length && count_type == 'with_plagues'"
+        >
+          <ion-label stacked
+            >{{'os_count.device_number' | translate}}</ion-label
+          >
+          <ionic-selectable
+            placeholder="{{ 'select' | translate }}"
+            [disabled]="!deviceNumbers?.length"
+            required
+            item-content
+            [isMultiple]="false"
+            name="deviceNumber"
+            [(ngModel)]="deviceNumber"
+            [items]="deviceNumbers"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{ 'search' | translate }}"
+            searchFailText="{{ 'no_devices_found' | translate }}"
+          >
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="deviceNumbers?.length && count_type == 'without_plagues'"
+        >
+          <ion-label stacked
+            >{{'os_count.device_number' | translate}}</ion-label
+          >
+          <ionic-selectable
+            placeholder="{{ 'select' | translate }}"
+            [disabled]="!deviceNumbers?.length"
+            required
+            item-content
+            [isMultiple]="true"
+            name="deviceNumberMultiple"
+            [(ngModel)]="deviceNumberMultiple"
+            [items]="deviceNumbers"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{ 'search' | translate }}"
+            searchFailText="{{ 'no_devices_found' | translate }}"
+            #devicesComponent
+          >
+            <ng-template ionicSelectableFooterTemplate>
+              <ion-toolbar>
+                <ion-row>
+                  <ion-col>
+                    <button
+                      ion-button
+                      full
+                      (click)="toggleCustomItems(devicesComponent)"
+                    >
+                      {{(devicesComponent.itemsToConfirm.length ?
+                      'os_form.uncheck_all' : 'os_form.check_all') | translate}}
+                    </button>
+                  </ion-col>
+                  <ion-col>
+                    <button
+                      ion-button
+                      full
+                      (click)="confirmCustom(devicesComponent)"
+                    >
+                      {{'ok' | translate}}
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-toolbar>
+            </ng-template>
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-item
+          no-padding
+          text-wrap
+          *ngIf="deviceNumberMultiple && deviceNumberMultiple.length && count_type == 'without_plagues'"
+        >
+          <ion-label>{{'os_count.no_plagues_found' | translate}}</ion-label>
+          <ion-checkbox
+            item-right
+            secondary
+            (change)="pests = []"
+            name="noPestFound"
+            [(ngModel)]="noPestFound"
+          ></ion-checkbox>
+        </ion-item>
+
+        <ion-item
+          *ngIf="deviceNumber && !noPestFound && !pests?.length && count_type == 'with_plagues'"
+          no-lines
+          no-padding
+          no-margin
+          class="inner-card-button"
+        >
+          <button
+            item-right
+            ion-button
+            big
+            color="primary"
+            (click)="openPestSelector(i)"
+          >
+            {{'os_count.inform_plagues' | translate}}
+          </button>
+        </ion-item>
+
+        <ion-list *ngIf="!noPestFound && pests.length">
+          <ion-item *ngFor="let pest of pests; let a = index">
+            <ion-icon name="bug" item-start></ion-icon>
+            <h2>{{ pest.name }}</h2>
+            <p>
+              <strong>{{'os_count.amount' | translate}}: </strong>{{ pest.count
+              ? pest.count : 0 }}
+            </p>
+            <button ion-button clear item-end (click)="pests.splice(a, 1)">
+              {{'remove' | translate}}
+            </button>
+          </ion-item>
+        </ion-list>
+
+        <ion-grid padding>
+          <ion-row>
+            <ion-col no-padding col-12
+              ><button
+                ion-button
+                full
+                [disabled]="form.invalid || (!noPestFound && !pests.length)"
+                color="primary"
+                (click)="save(form)"
+              >
+                {{'save' | translate}}
+              </button></ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+  </form>
+</ion-content>

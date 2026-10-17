@@ -1,0 +1,165 @@
+<!--
+  Generated template for the NonCompliancePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "non_compliances" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item-divider color="primary">
+          {{'non_compliances' | translate}}
+        </ion-item-divider>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{'os_noncompliance.area_sector' | translate}}</ion-label>
+          <ionic-selectable
+            placeholder="{{'select' | translate}}"
+            required
+            item-content
+            [isMultiple]="false"
+            name="sector"
+            [(ngModel)]="sector"
+            [items]="sectors"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{'os_noncompliance.no_conformity' | translate}}</ion-label>
+          <ionic-selectable
+            placeholder="{{'select' | translate}}"
+            required
+            item-content
+            [isMultiple]="false"
+            name="type"
+            [(ngModel)]="type"
+            [items]="types"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{'os_noncompliance.problems_found' | translate}}</ion-label>
+          <ionic-selectable
+            [disabled]="!type"
+            required
+            placeholder="{{'select' | translate}}"
+            item-content
+            [isMultiple]="false"
+            name="problem"
+            [(ngModel)]="problem"
+            [items]="getFiltered(type, problems)"
+            itemValueField="id"
+            itemTextField="name"
+            (onChange)="suggestedAction.clear()"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{'os_noncompliance.suggested_actions' | translate}}</ion-label>
+          <ionic-selectable
+            [disabled]="!problem"
+            required
+            placeholder="{{'select' | translate}}"
+            #suggestedAction
+            item-content
+            [isMultiple]="true"
+            name="suggested_actions"
+            [(ngModel)]="suggested_actions"
+            [items]="problem?.suggested_actions"
+            itemValueField="id"
+            itemTextField="description"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-item no-padding no-lines class="no-border number-input">
+          <ion-label stacked>{{'notes' | translate}}</ion-label>
+          <ion-textarea
+            placeholder="{{'notes' | translate}}"
+            [(ngModel)]="comments"
+            name="comments"
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-grid class="pictures-grid">
+          <ion-row>
+            <ion-col col-4 *ngFor="let picture of pictures; let i = index">
+              <img [src]="picture" (click)="openPicture(picture)" />
+              <button
+                ion-fab
+                small
+                color="danger"
+                class="delete"
+                (click)="pictures.splice(i, 1)"
+              >
+                <ion-icon name="md-close"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-item no-lines no-padding no-margin class="inner-card-button">
+          <button
+            type="button"
+            item-right
+            ion-button
+            big
+            color="primary"
+            (click)="presentActionSheet()"
+          >
+          {{'os_noncompliance.add_pictures' | translate}}
+          </button>
+          <input
+            #galleryInput
+            type="file"
+            accept="image/*"
+            style="position: fixed; left: -9999px; width: 1px; height: 1px; opacity: 0"
+            (change)="onGallerySelected($event)"
+          />
+        </ion-item>
+
+        <ion-grid padding>
+          <ion-row>
+            <ion-col no-padding col-12
+              ><button
+                ion-button
+                full
+                color="primary"
+                [disabled]="form.invalid"
+                (click)="save(form)"
+              >
+              {{'save' | translate}}
+              </button></ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+  </form>
+</ion-content>

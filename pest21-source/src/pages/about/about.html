@@ -1,0 +1,54 @@
+<!--
+  Generated template for the AboutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{'about_app_page.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <img src="assets/imgs/pests.png" class="logo">
+  <p>
+      {{'about_app_page.description' | translate}}
+  </p>
+  <ion-card no-padding class="card-order">
+
+    <ion-grid class="table-order">
+      <ion-row>
+        <ion-col col-8>{{'about_app_page.app_version' | translate}}:</ion-col>
+        <ion-col col-4>{{appVersionNumber}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>{{'about_app_page.app_code' | translate}}:</ion-col>
+        <ion-col col-4>{{appVersionCode}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>{{'about_app_page.pro_version' | translate}}:</ion-col>
+        <ion-col col-4>{{ionicProVersionNumber}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>{{'about_app_page.os' | translate}}:</ion-col>
+        <ion-col col-4>{{platformName}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>{{'about_app_page.os_version' | translate}}:</ion-col>
+        <ion-col col-4>{{platformVersion}}</ion-col>
+      </ion-row>
+    </ion-grid>
+    
+  </ion-card>
+</ion-content>
+<ion-footer no-lines>
+  <p text-center [innerHtml]="'about_app_page.developed_by' | translate">
+  </p>
+</ion-footer>

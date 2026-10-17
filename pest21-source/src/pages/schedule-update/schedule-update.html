@@ -1,0 +1,338 @@
+<!--
+  Generated template for the ScheduleCreatePage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Alterar Agendamento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item-divider color="primary">
+          {{ schedule?.contract?.client?.fantasy_name }}
+        </ion-item-divider>
+        <ion-grid padding class="fields-grid">
+          <!--INFORMATIVO VALORES ANTIVOS-->
+
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item-divider color="primary">
+                Dados atuais do Agendamento
+              </ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item no-padding no-lines class="no-border">
+                <ion-label stacked
+                  >{{'schedule_create.date_start' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="dd/mm/aaaa hh:mm"
+                  required
+                  max="2050"
+                  disabled
+                  displayFormat="DD/MM/YYYY HH:mm"
+                  pickerFormat="DD/MM/YYYY HH:mm"
+                  [(ngModel)]="schedule.old_start_time"
+                  name="old_start_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col col-12 no-padding>
+              <ion-item no-padding no-lines class="no-border">
+                <ion-label stacked
+                  >{{'schedule_create.date_end' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="dd/mm/aaaa hh:mm"
+                  [min]="schedule.start_time"
+                  required
+                  max="2050"
+                  disabled
+                  displayFormat="DD/MM/YYYY HH:mm"
+                  pickerFormat="DD/MM/YYYY HH:mm"
+                  [(ngModel)]="schedule.old_end_time"
+                  name="old_end_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item no-padding no-lines class="no-border">
+                <ion-label stacked
+                  >{{'schedule_create.move_time' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="HH:MM"
+                  disabled
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  [(ngModel)]="schedule.old_travel_time"
+                  name="old_travel_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item-divider color="transparent"> </ion-item-divider>
+            </ion-col>
+          </ion-row>
+          <!-- FINAL INFORMATIVO-->
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item-divider color="primary"
+                >Novos Dados do Agendamento</ion-item-divider
+              >
+            </ion-col>
+          </ion-row>
+          <ion-row class="new-edit">
+            <ion-col col-12 no-padding>
+              <ion-item
+                no-padding
+                no-lines
+                class="no-border"
+                (click)="disableDebug ? tryNewPicker('start_time') : null"
+              >
+                <ion-label stacked
+                  >Nova {{'schedule_create.date_start' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="dd/mm/aaaa hh:mm"
+                  required
+                  max="2050"
+                  [min]="minDate"
+                  displayFormat="DD/MM/YYYY HH:mm"
+                  pickerFormat="DD/MM/YYYY HH:mm"
+                  [(ngModel)]="schedule.start_time"
+                  name="start_time"
+                  [disabled]="disableDebug"
+                  (ionChange)="schedule.end_time = null"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col col-12 no-padding>
+              <ion-item
+                no-padding
+                no-lines
+                class="no-border"
+                (click)="disableDebug && schedule.start_time ? tryNewPicker('end_time') : null"
+              >
+                <ion-label stacked
+                  >Nova {{'schedule_create.date_end' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="dd/mm/aaaa hh:mm"
+                  [min]="schedule.start_time"
+                  required
+                  max="2050"
+                  [disabled]="disableDebug"
+                  displayFormat="DD/MM/YYYY HH:mm"
+                  pickerFormat="DD/MM/YYYY HH:mm"
+                  [(ngModel)]="schedule.end_time"
+                  name="end_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="schedule.start_time >= schedule.end_time">
+            <ion-col col-12 no-padding>
+              <ion-item
+                padding
+                margin-vertical
+                no-lines
+                class="no-border"
+                color="danger"
+                text-wrap
+              >
+                <p padding-horizontal>
+                  {{'schedule_create.start_time_warning' | translate}}
+                </p>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="new-edit">
+            <ion-col col-12 no-padding>
+              <ion-item
+                no-padding
+                no-lines
+                class="no-border"
+                (click)="disableDebug && schedule.end_time ? tryNewPicker('travel_time') : null"
+              >
+                <ion-label stacked
+                  >Novo {{'schedule_create.move_time' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="HH:MM"
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  [disabled]="disableDebug"
+                  [(ngModel)]="schedule.travel_time"
+                  name="travel_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row
+            *ngIf="(!travel_time || travel_time == '00:00') && start_time && end_time"
+          >
+            <ion-col col-12 no-padding>
+              <ion-item
+                padding
+                margin-vertical
+                no-lines
+                class="no-border"
+                color="danger"
+                text-wrap
+              >
+                <p padding-horizontal>
+                  {{'schedule_create.move_time_warn' | translate}}
+                </p>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked
+            >{{'schedule_create.service' | translate}}</ion-label
+          >
+          <ionic-selectable
+            placeholder="{{'select' | translate}}"
+            item-content
+            [isMultiple]="false"
+            name="schedule_service"
+            [(ngModel)]="schedule.schedule_services"
+            [items]="services"
+            itemValueField="id"
+            required
+            readonly
+            disabled
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border">
+          <ion-label stacked>{{'schedule_create.type' | translate}}</ion-label>
+          <ionic-selectable
+            [disabledItems]="disabled"
+            placeholder="{{'select' | translate}}"
+            item-content
+            [isMultiple]="false"
+            name="schedule_type"
+            [(ngModel)]="schedule.schedule_types"
+            [items]="schedule_types"
+            itemValueField="id"
+            required
+            readonly
+            disabled
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="!schedule.delayed"
+        >
+          <ion-label stacked>Justifique a alteração</ion-label>
+          <ionic-selectable
+            [disabledItems]="disabled"
+            placeholder="Justifique a alteração"
+            item-content
+            [isMultiple]="false"
+            name="new_change_reason"
+            [(ngModel)]="schedule.new_change_reason"
+            [items]="attendance_reasons"
+            itemValueField="name"
+            required
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="schedule.delayed"
+        >
+          <ion-label stacked>Justifique o NO-SHOW</ion-label>
+          <ionic-selectable
+            [disabledItems]="disabled"
+            placeholder="Justifique o NO-SHOW"
+            item-content
+            [isMultiple]="false"
+            name="new_no_show"
+            [(ngModel)]="schedule.new_no_show"
+            [items]="noshow_reasons"
+            itemValueField="name"
+            required
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+
+        <ion-grid padding>
+          <ion-row>
+            <ion-col no-padding col-12
+              ><button
+                ion-button
+                full
+                [disabled]="
+                  form.invalid ||
+                  schedule.start_time >= schedule.end_time ||
+                  schedule.schedule_type == null ||
+                  schedule.schedule_service == null ||
+                  !schedule.travel_time || schedule.travel_time == '00:00'
+                "
+                color="primary"
+                (click)="save(form)"
+              >
+                {{'schedule_create.save_schedule' | translate}}
+              </button></ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+  </form>
+</ion-content>

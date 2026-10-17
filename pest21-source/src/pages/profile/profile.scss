@@ -1,0 +1,173 @@
+// Styles for page-profile
+page-profile ion-select,
+page-profile ionic-selectable {
+  background: #eee;
+  padding: 12px !important;
+  border-radius: 15px;
+  margin-top: 8px;
+}
+
+page-profile ion-item-group {
+  margin-bottom: 20px;
+  border-radius: 15px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+  padding: 0 0 16px;
+}
+
+page-profile ion-item-group ion-input,
+page-profile ion-item-group ion-datetime,
+page-profile ion-item-group .number-input ion-input,
+page-profile ion-item-group ion-textarea {
+  border-radius: 15px;
+  background: #eee;
+  height: 42px;
+  padding: 0;
+}
+
+page-profile ion-item-group ion-textarea {
+  height: 250px !important;
+}
+
+page-profile ion-item-group .number-input .label {
+  line-height: 15px;
+  padding-left: 1px;
+  margin-bottom: 8px !important;
+}
+
+page-profile ion-item-group .number-input input {
+  margin: 0 !important;
+  height: 100%;
+  padding: 0 16px !important;
+  text-align: left;
+}
+
+page-profile ion-item-group .number-input textarea {
+  padding: 4px 8px;
+  height: 100%;
+}
+
+page-profile ion-item-group .remove-item {
+  float: right;
+  border-radius: 50%;
+  background: indianred;
+  position: absolute;
+  right: 17px;
+  margin-top: -6px;
+  z-index: 3;
+}
+
+page-profile ion-item-group ion-grid.fields-grid ion-col:nth-child(2n-1) {
+  padding-right: 8px;
+}
+
+page-profile ion-item-group ion-grid.fields-grid ion-col ion-item {
+  padding: 0 !important;
+}
+
+page-profile ion-item-group ion-grid.fields-grid ion-col ion-item .label {
+  line-height: 15px;
+  padding-left: 1px;
+  margin-bottom: 8px !important;
+}
+
+page-profile ion-item-group ion-grid.fields-grid ion-col ion-item input,
+page-profile ion-item-group ion-grid.fields-grid ion-col ion-item .datetime-text,
+page-profile ion-item-group ion-grid.fields-grid ion-col ion-item textarea {
+  margin: 0 !important;
+  height: 100%;
+  text-align: left;
+  padding: 0 8px !important;
+  text-align: center;
+}
+
+page-profile ion-item-group ion-item-divider ion-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+page-profile ion-item-group ion-item {
+  padding: 8px 16px !important;
+}
+
+page-profile ion-item-group ion-item.no-border {
+  border: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-profile ion-item-group ion-item .item-inner {
+  padding: 0 !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-profile ion-item-group .inner-card {
+  border-radius: 15px;
+  padding: 0 0 14px;
+  background: #ccc;
+  margin-bottom: 25px;
+}
+
+page-profile ion-item-group .inner-card ion-label {
+  color: #000 !important;
+}
+
+page-profile ion-item-group .inner-card ion-item {
+  background: transparent;
+}
+
+page-profile ion-item-group .inner-card-button ion-label {
+  margin: 0 !important;
+}
+
+page-profile ion-item-group .inner-card-button button {
+  margin-right: 0;
+}
+
+page-profile ion-item {
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-profile ion-input {
+  border-radius: 15px;
+  background: #eee;
+  height: 42px;
+  padding: 0;
+  margin-top: 5px;
+}
+
+page-profile ion-input input {
+  margin: 0 !important;
+  padding: 0 8px !important;
+  text-align: left;
+  height: 40px;
+  width: 100% !important;
+}
+
+page-profile canvas {
+  width: 100%;
+  height: 300px;
+  border: 1px solid #ccc;
+  background: #eee;
+}
+
+page-profile .current-signature {
+  height: 250px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+page-profile .current-signature img {
+  max-height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}

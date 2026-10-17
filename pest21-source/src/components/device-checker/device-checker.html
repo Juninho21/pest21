@@ -1,0 +1,27 @@
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons right>
+      <button ion-button (click)="selectAll(!selector)">
+        {{(!selector ? 'os_form.check_all' : 'os_form.uncheck_all') | translate}}
+      </button>
+    </ion-buttons>
+    <ion-title>{{'os_form.devices' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ng-template ngFor let-device [ngForOf]="devices">
+        <ion-col col-2 *ngIf="device.confirmed != true">
+          <button ion-button class="device" [class.checked]="device.checked == true" (click)="device.checked = !device.checked">
+            {{device.name}}
+            <ion-icon name="md-close"></ion-icon>
+          </button>
+        </ion-col>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer padding>
+  <button ion-button block color="primary" (click)="closeModal()">{{'confirm' | translate}}</button>
+</ion-footer>

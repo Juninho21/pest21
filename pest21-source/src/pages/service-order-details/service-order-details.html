@@ -1,0 +1,373 @@
+<!--
+  Generated template for the ServiceOrderResumePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-title>Espelho de Rota</ion-title>
+    <ion-buttons right>
+      <button
+        ion-button
+        color="light"
+        icon-only
+        *ngIf="!disableEdit"
+        (click)="editMirror(scheduling.contract)"
+      >
+        Editar
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card no-padding class="card-order">
+    <ion-card-header color="primary" lines>
+      {{'clients_detail.title' | translate}}
+    </ion-card-header>
+
+    <ion-grid class="table-order" *ngIf="scheduling && scheduling.contract">
+      <ion-row>
+        <ion-col col-4>JDE/{{'client_code' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.code}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'fantasy_name' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.fantasy_name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>CPF/CNPJ:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.document}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'address' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.street}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'number' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{scheduling.contract.client.number ?
+          scheduling.contract.client.number : " - "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'complement' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{scheduling.contract.client.complement ?
+          scheduling.contract.client.complement : " - "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'neighborhood' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{scheduling.contract.client.district ?
+          scheduling.contract.client.district : " - "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'zipcode' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{scheduling.contract.client.zipcode ?
+          scheduling.contract.client.zipcode : " - "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'city' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.city}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'state' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract.client.state}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card no-padding class="card-order">
+    <ion-card-header color="primary" lines>
+      Informações do Agendamento
+    </ion-card-header>
+
+    <ion-grid class="table-order" *ngIf="scheduling && scheduling.contract">
+      <ion-row>
+        <ion-col col-4>{{'schedule_type' | translate}}:</ion-col>
+        <ion-col col-8>{{schedule_type_name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'service_type' | translate}}:</ion-col>
+        <ion-col col-8>{{service_name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Tempo de Deslocamento:</ion-col>
+        <ion-col col-8
+          >{{convertMinsToHrsMins(scheduling.travel_time)}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'scheduled_time' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{scheduling.start_time | date:"dd/MM/yyyy"}} - De
+          {{scheduling.start_time | date:"HH:mm"}}<br />
+          {{scheduling.end_time | date:"dd/MM/yyyy"}} - Até
+          {{scheduling.end_time | date:"HH:mm"}}</ion-col
+        >
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card
+    no-padding
+    class="card-order"
+    *ngIf="scheduling && scheduling.contract"
+  >
+    <ion-card-header lines color="primary">
+      Informações de Contatos ({{scheduling.contract.client.contacts.length}})
+    </ion-card-header>
+
+    <div>
+      <ion-grid
+        class="table-order"
+        *ngFor="let contact of scheduling.contract.client.contacts; let i = index"
+      >
+        <ion-row class="header-how" no-padding>
+          <ion-col col-12>Contato #{{i + 1}}:</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Nome:</ion-col>
+          <ion-col col-8>{{contact.name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>E-mail:</ion-col>
+          <ion-col col-8>{{contact.email}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Telefone fixo:</ion-col>
+          <ion-col col-8>{{contact.telephone}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Celular:</ion-col>
+          <ion-col col-8>{{contact.cellphone}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card>
+  <ion-card
+    no-padding
+    class="card-order"
+    *ngIf="scheduling && scheduling.contract"
+  >
+    <ion-card-header color="primary" lines> Escopo do Cliente </ion-card-header>
+
+    <ion-grid class="table-order">
+      <ion-row>
+        <ion-col col-4>Programa:</ion-col>
+        <ion-col col-8> - </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Serviço:</ion-col>
+        <ion-col col-8> - </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Cobertura de Pragas:</ion-col>
+        <ion-col col-8> - </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'frequency' | translate}}:</ion-col>
+        <ion-col col-8>{{scheduling.contract?.frequency_info?.name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Tempo de Atendimento:</ion-col>
+        <ion-col col-8>{{ scheduling.contract.attendance_time ? scheduling.contract.attendance_time + ' min' : '-'}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Tempo de Deslocamento:</ion-col>
+        <ion-col col-8>{{ scheduling.contract.displacement_time ? scheduling.contract.displacement_time + ' min' : '-' }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card
+    no-padding
+    class="card-order devices-card"
+    *ngIf="scheduling && scheduling.contract"
+  >
+    <ion-card-header lines color="primary">
+      Dispositivos ({{scheduling.contract?.client?.client_devices?.length}})
+    </ion-card-header>
+
+    <ion-slides pager>
+      <ion-slide
+        *ngFor="let device of scheduling.contract?.client.client_devices; let i = index"
+      >
+        <ion-card class="card-order">
+          <ion-card-header lines color="primary">
+            Dispositivo {{i +
+            1}}/{{scheduling.contract?.client.client_devices.length}}
+          </ion-card-header>
+          <ion-grid class="table-order">
+            <ion-row>
+              <ion-col col-12
+                ><p><strong>Tipo</strong></p>
+                {{device.device_type.name}}</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col col-12
+                ><p><strong>Quantidade</strong></p>
+                {{device.amount}}</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col col-12
+                ><p><strong>Freq. Monitoramento</strong></p>
+                {{device.frequency_type.name}}</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col col-12
+                ><p><strong>Observações</strong></p>
+                {{device.comments}}</ion-col
+              >
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </ion-card>
+  <ion-card
+    no-padding
+    class="card-order"
+    *ngIf="scheduling && scheduling.contract"
+  >
+    <ion-card-header lines color="primary">Dados Adicionais </ion-card-header>
+
+    <form #dataForm="ngForm">
+      <ion-grid class="table-order">
+        <ion-row>
+          <ion-col col-12><strong>Particularidades da Agenda</strong></ion-col>
+
+          <ion-col col-12 padding>
+            <ul no-padding>
+              <li
+                *ngFor="let peculiarity of scheduling.contract?.client.peculiarities"
+              >
+                {{peculiarity.peculiarity.description}}
+              </li>
+            </ul>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12
+            ><strong
+              >Cliente Recebe Auditorias e/ou Certificações?</strong
+            ></ion-col
+          >
+
+          <ion-col col-12 padding>
+            <ul
+              no-padding
+              *ngIf="scheduling.contract?.client.client_audits.length"
+            >
+              <li
+                *ngFor="let audit of scheduling.contract?.client.client_audits"
+              >
+                {{audit?.audit_type?.name}}
+              </li>
+            </ul>
+            <ul
+              no-padding
+              *ngIf="!scheduling.contract?.client.client_audits.length"
+            >
+              <li>Não</li>
+            </ul>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12><strong>Anotações do Técnico</strong></ion-col>
+
+          <ion-col col-12 padding>
+            <ul no-padding>
+              <li>{{scheduling.contract?.client.peculiarity_description}}</li>
+            </ul>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-card>
+  <ion-grid no-pading *ngIf="!view">
+    <ion-row no-padding>
+      <ion-col col-6
+        ><button
+          ion-button
+          text-wrap
+          full
+          [disabled]="this.scheduling.delayed || this.scheduling?.no_show?.length || cantDelete"
+          large
+          color="danger"
+          (click)="delete()"
+        >
+          EXCLUIR AGENDAMENTO
+        </button></ion-col
+      >
+      <ion-col col-6>
+        <button
+          ion-button
+          text-wrap
+          full
+          large
+          color="primary"
+          (click)="changeService(scheduling.contract)"
+        >
+          ALTERAR AGENDAMENTO
+        </button></ion-col
+      >
+    </ion-row>
+  </ion-grid>
+  <ion-grid
+    no-pading
+    *ngIf="canStart == true && !this.scheduling.delayed && !view"
+  >
+    <ion-row no-padding>
+      <ion-col col-6 *ngIf="this.scheduling.id"
+        ><button
+          ion-button
+          text-wrap
+          full
+          large
+          color="danger"
+          (click)="nonAttendance()"
+        >
+          INFORMAR NÃO ATENDIMENTO
+        </button></ion-col
+      >
+      <ion-col
+        col-6
+        *ngIf="canStart == true && !this.scheduling.delayed && !view"
+      >
+        <button
+          ion-button
+          text-wrap
+          full
+          large
+          color="primary"
+          (click)="startService()"
+        >
+          {{buttonLabel | translate}}
+        </button></ion-col
+      >
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="canStart == true && !this.scheduling.delayed && view">
+    <ion-row>
+      <ion-col col-12>
+        <button
+          ion-button
+          text-wrap
+          full
+          large
+          color="danger"
+          (click)="nonAttendance()"
+        >
+          INFORMAR NÃO ATENDIMENTO
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

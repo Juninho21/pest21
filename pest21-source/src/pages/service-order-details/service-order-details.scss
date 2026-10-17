@@ -1,0 +1,132 @@
+// Styles for page-service-order-details
+page-service-order-details .scrol-content {
+  background: aliceblue;
+}
+
+page-service-order-details .card-order {
+  border-radius: 15px;
+}
+
+page-service-order-details .card-order ion-card-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+page-service-order-details .table-order {
+  padding: 0;
+}
+
+page-service-order-details .table-order ion-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+page-service-order-details .table-order ion-row ion-col[col-4] {
+  font-weight: bold;
+}
+
+page-service-order-details ion-grid {
+  padding: 0 !important;
+}
+
+page-service-order-details button .button-inner {
+  white-space: normal;
+  font-size: 16px;
+}
+
+page-service-order-details ion-footer ion-grid {
+  padding: 0 !important;
+}
+
+page-service-order-details ion-footer button {
+  margin: 0 !important;
+}
+
+page-service-order-details ion-footer button .button-inner {
+  white-space: normal;
+  font-size: 17px;
+}
+
+page-service-order-details .card-order {
+  border-radius: 15px;
+}
+
+page-service-order-details .card-order ion-card-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  color: #fff;
+  background-color: #008dcf;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+page-service-order-details .card-order ion-card-header button {
+  background-color: #fff;
+}
+
+page-service-order-details .card-order ion-card-header button ion-icon {
+  color: blue;
+}
+
+page-service-order-details .card-order ion-card-header button[color="danger"] {
+  background-color: red;
+}
+
+page-service-order-details .card-order ion-card-header button[color="danger"] ion-icon {
+  color: white;
+}
+
+page-service-order-details .devices-card ion-slide {
+  margin-bottom: 30px;
+}
+
+page-service-order-details .devices-card ion-slide ion-col {
+  text-align: left;
+}
+
+page-service-order-details .table-order {
+  padding: 0;
+}
+
+page-service-order-details .table-order ion-label {
+  color: #000 !important;
+}
+
+page-service-order-details .table-order ion-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+page-service-order-details .table-order ion-row ion-col[col-4] {
+  font-weight: bold;
+}
+
+page-service-order-details .table-order ion-row ul {
+  margin: 0;
+}
+
+page-service-order-details .table-order ion-row.header-how {
+  padding: 0;
+}
+
+page-service-order-details .table-order ion-row.header-how ion-col {
+  color: #fff;
+  background-color: #008dcf;
+  text-align: center;
+}

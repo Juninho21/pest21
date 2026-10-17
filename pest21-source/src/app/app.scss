@@ -1,0 +1,14 @@
+// http://ionicframework.com/docs/theming/
+@import "../theme/variables";
+
+// Global application rules extracted from build
+ion-navbar .toolbar-background {
+  background: url("../assets/imgs/header-nav.png") no-repeat center center;
+  background-size: cover;
+}
+
+.card-order {
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

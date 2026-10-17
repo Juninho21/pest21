@@ -1,0 +1,39 @@
+// Styles for page-about
+page-about .logo {
+  width: 60%;
+  margin: 15px auto;
+  display: block;
+}
+
+page-about .scrol-content {
+  background: aliceblue;
+}
+
+page-about .card-order {
+  border-radius: 15px;
+}
+
+page-about .card-order ion-card-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+page-about .table-order {
+  padding: 0;
+}
+
+page-about .table-order ion-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+page-about .table-order ion-row ion-col[col-4] {
+  font-weight: bold;
+}
+
+page-about ion-footer button {
+  margin: 0 !important;
+}

@@ -1,0 +1,163 @@
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{'os_audit.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-group *ngFor="let audit of auditGroups">
+      <ion-item-divider color="primary">
+        {{ audit.name }}
+      </ion-item-divider>
+      <ion-list>
+        <div *ngFor="let question of audit.audit_questions">
+          <row class="no-border">
+            <ion-row class="break-line">
+              <p>{{ question.counter+')' }} {{ question.question }} <b style="color: red;" *ngIf="question.required">*</b></p>
+            </ion-row>
+            <!--<P style="color: red;font-size: 10px;" *ngIf="question.required">{{'os_audit.quention_required' | translate}} *</P>-->
+            
+            <!-- Condicional para mostrar os botões se o tipo for BOOLEAN -->
+            <ion-item *ngIf="question.type === 'BOOLEAN'" class="no-border">
+              <ion-row>
+                <ion-col (click)="selectAnswer(question.id, true)">
+                  <div class="button-container" [class.selected]="isChecked(question.id, true)">
+                    <ion-button expand="block">{{'yes' | translate}}</ion-button>
+                  </div>
+                </ion-col>
+                <ion-col (click)="selectAnswer(question.id, false)">
+                  <div class="button-container" [class.selected]="isChecked(question.id, false)">
+                    <ion-button expand="block">{{'no' | translate}}</ion-button>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+      
+            <!--text-align: center; -->
+            <!--<P style="color: red;text-align: center;font-size: 9px;" *ngIf="question.type === 'BOOLEAN' && ((isChecked(question.id, true) && question.open_observation_true) || (isChecked(question.id, false) && question.open_observation_false))">
+              {{ question.required_observation ? getPlaceholderText(question.required_observation) : '' }}
+            </P>-->
+            <!-- Campo de texto para informar o motivo se a resposta for sim  && question.open_observation -->
+            <ion-item *ngIf="question.type === 'BOOLEAN' && ((isChecked(question.id, true) && question.open_observation_true) || (isChecked(question.id, false) && question.open_observation_false))" class="no-border">
+              <ion-textarea type="text" #textarea (input)="adjustTextareaHeight($event.target)" [ngModel]="getObservation(question.id)" (ngModelChange)="updateObservation(question.id, $event)" placeholder="{{ getPlaceholderText(question.required_observation) }}"></ion-textarea>
+            </ion-item>         
+
+            <!-- Condicional para mostrar o campo de texto se o tipo for TEXT -->
+            <ion-item *ngIf="question.type === 'TEXT'" class="no-border">
+              <ion-row class="break-line">
+                <p>{{ question.counter+')' }} {{ question.question }} <b style="color: red;" *ngIf="question.required">*</b></p>
+                <P style="color: red;font-size: 10px;" *ngIf="question.required">{{'os_audit.quention_required' | translate}} *</P>
+              </ion-row>
+              <ion-textarea type="text" #textarea (input)="adjustTextareaHeight($event.target)" [ngModel]="getObservation(question.id)" (ngModelChange)="updateObservation(question.id, $event)" placeholder="{{ getPlaceholderDescribe(question.required) }}"></ion-textarea>
+            </ion-item>
+
+            <!-- Condicional para mostrar as imagens -->
+            <ion-item *ngIf="(question.type === 'BOOLEAN' && ((isChecked(question.id, true) && question.open_img_true) || (isChecked(question.id, false) && question.open_img_false))) || (question.type === 'TEXT' && question.open_img_text)" class="no-border">
+              <ion-item no-lines no-padding no-margin class="inner-card-button" >
+                <button ion-button full color="primary" (click)="addPicture(question.id)">
+                  {{ getPhotoRequired(question.required_img) }}
+                </button>
+                <!--<P style="color: red;text-align: center;font-size: 10px;">{{ question.required_img ? getPhotoRequired(question.required_img) : '' }}</P>-->
+              </ion-item>
+              <ion-grid class="pictures-grid">
+                <ion-row>
+                  <ion-col col-12 class="center-image" *ngFor="let picture of getImg(question.id)">
+                    <div>
+                      <img [src]="picture" (click)="openPicture(picture)" />
+                      <button ion-fab small color="danger" class="delete" (click)="deletePicture(question.id)">
+                        <ion-icon name="md-close"></ion-icon>
+                      </button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+            
+          </row>
+
+          <div *ngFor="let son of question.question_son">
+            <ion-item class="no-border">
+              <ion-row class="break-line">
+                <p>{{ son.question }} <b style="color: red;" *ngIf="son.required">*</b></p>
+              </ion-row>
+              <!--<P style="color: red;font-size: 10px;" *ngIf="question.required">{{'os_audit.quention_required' | translate}} *</P>-->
+              
+              <!-- Condicional para mostrar os botões se o tipo for BOOLEAN -->
+              <ion-item *ngIf="son.type === 'BOOLEAN'" class="no-border">
+                <ion-row>
+                  <ion-col (click)="selectAnswer(son.id, true)">
+                    <div class="button-container" [class.selected]="isChecked(son.id, true)">
+                      <ion-button expand="block">{{'yes' | translate}}</ion-button>
+                    </div>
+                  </ion-col>
+                  <ion-col (click)="selectAnswer(son.id, false)">
+                    <div class="button-container" [class.selected]="isChecked(son.id, false)">
+                      <ion-button expand="block">{{'no' | translate}}</ion-button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+        
+              <!-- Campo de texto para informar o motivo se a resposta for sim  && question.open_observation -->
+              <ion-item *ngIf="son.type === 'BOOLEAN' && ((isChecked(son.id, true) && son.open_observation_true) || (isChecked(son.id, false) && son.open_observation_false))" class="no-border">
+                <ion-textarea type="text" #textarea (input)="adjustTextareaHeight($event.target)" [ngModel]="getObservation(son.id)" (ngModelChange)="updateObservation(son.id, $event)" placeholder="{{ getPlaceholderText(son.required_observation) }}"></ion-textarea>
+              </ion-item>         
+  
+              <!-- Condicional para mostrar o campo de texto se o tipo for TEXT -->
+              <ion-item *ngIf="son.type === 'TEXT'" class="no-border">
+                <ion-row class="break-line">
+                  <p>{{ son.question }} <b style="color: red;" *ngIf="son.required">*</b></p>
+                  <P style="color: red;font-size: 10px;" *ngIf="son.required">{{'os_audit.quention_required' | translate}} *</P>
+                </ion-row>
+                <ion-textarea type="text" #textarea (input)="adjustTextareaHeight($event.target)" [ngModel]="getObservation(son.id)" (ngModelChange)="updateObservation(son.id, $event)" placeholder="{{ getPlaceholderDescribe(son.required) }}"></ion-textarea>
+              </ion-item>
+  
+              <!-- Condicional para mostrar as imagens -->
+              <ion-item *ngIf="(son.type === 'BOOLEAN' && ((isChecked(son.id, true) && son.open_img_true) || (isChecked(son.id, false) && son.open_img_false))) || (son.type === 'TEXT' && son.open_img_text)" class="no-border">
+                <ion-item no-lines no-padding no-margin class="inner-card-button" >
+                  <button ion-button full color="primary" (click)="addPicture(son.id)">
+                    {{ getPhotoRequired(son.required_img) }}
+                  </button>
+                </ion-item>
+                <ion-grid class="pictures-grid">
+                  <ion-row>
+                    <ion-col col-12 class="center-image" *ngFor="let picture of getImg(son.id)">
+                      <div>
+                        <img [src]="picture" (click)="openPicture(picture)" />
+                        <button ion-fab small color="danger" class="delete" (click)="deletePicture(son.id)">
+                          <ion-icon name="md-close"></ion-icon>
+                        </button>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+            </ion-item>
+          </div>
+          <ion-item-divider></ion-item-divider>
+        </div>
+        <div *ngIf="audit.audit_questions && audit.audit_questions.length <= 0">
+          <ion-row class="break-line">
+            <p style="margin-left: 10px;">{{'os_audit.not_exists' | translate}}</p>
+          </ion-row>
+        </div>
+      </ion-list>
+    </ion-item-group>
+  </ion-list>
+  <button ion-button (click)="saveResponses()">{{'save' | translate}}</button>
+  <button ion-button (click)="resetAudit()">{{'os_audit.reset' | translate}}</button>
+  <input
+    #galleryInput
+    type="file"
+    accept="image/*"
+    style="position: fixed; left: -9999px; width: 1px; height: 1px; opacity: 0"
+    (change)="onGallerySelected($event)"
+  />
+</ion-content>

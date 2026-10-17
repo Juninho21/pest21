@@ -1,0 +1,208 @@
+<!--
+  Generated template for the ServiceOrderEvaluationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "os_evaluation.title" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--<h2>Avaliação</h2>-->
+  <form #form="ngForm">
+    <p><strong>1º</strong> {{ "os_evaluation.question_one" | translate }}</p>
+    <ion-item no-padding>
+      <ion-range
+        min="0"
+        max="10"
+        required
+        (ionChange)="reason_one = null; subreason_one = null"
+        [color]="
+        evaluationOne < 7
+          ? 'danger'
+          : evaluationOne < 9
+          ? 'warning'
+          : 'secondary'
+      "
+        snaps="true"
+        pin="true"
+        step="1"
+        [(ngModel)]="evaluationOne"
+        name="evaluationOne"
+      ></ion-range>
+    </ion-item>
+    <div
+      class="justify"
+      *ngIf="currentLang == 'pt-br' && evaluationOne <= 6 && evaluationOne > 0"
+    >
+      <ion-list
+        no-lines
+        class="reason-list"
+        radio-group
+        name="reason_one"
+        [(ngModel)]="reason_one"
+        (ionChange)="subreason_one == null"
+        required
+      >
+        <ion-list-header>Justifique sua Nota</ion-list-header>
+        <ion-item text-wrap *ngFor="let reason of reasonsKeys">
+          <ion-label>{{ reason }}</ion-label>
+          <ion-radio item-start [value]="reason">{{ reason }}</ion-radio>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item *ngIf="reason_one">
+          <ion-label stacked>Submotivos</ion-label>
+          <ion-select
+            [(ngModel)]="subreason_one"
+            [selectOptions]="selectOptions"
+            name="subreason_one"
+            multiple="true"
+            placeholder="Selecione submotivos"
+            required
+          >
+            <ion-option *ngFor="let sub of reasons[reason_one]"
+              >{{ sub }}</ion-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div class="justify" *ngIf="currentLang == 'pt-br' && evaluationOne > 6">
+      <strong *ngIf="evaluationOne == 9 || evaluationOne == 10"
+        >Gostaria de adicionar um comentário?</strong
+      >
+      <strong *ngIf="evaluationOne == 7 || evaluationOne == 8"
+        >Gostaria de mencionar algum ponto de melhoria?</strong
+      >
+      <ion-textarea
+        [(ngModel)]="reason_one"
+        name="reason_one"
+        auto-grow
+        rows="12"
+        (input)="adjustTextarea($event);"
+      ></ion-textarea>
+    </div>
+    <div
+      class="justify comments"
+      *ngIf="currentLang == 'pt-br' && evaluationOne <= 6  && evaluationOne > 0"
+    >
+      <strong>Caso queira, complemente sua insatisfação</strong>
+      <ion-textarea
+        [(ngModel)]="comment_one"
+        name="comment_one"
+        auto-grow
+        rows="12"
+        (input)="adjustTextarea($event);"
+      ></ion-textarea>
+    </div>
+    <p><strong>2º</strong> {{ "os_evaluation.question_two" | translate }}</p>
+    <ion-item no-padding>
+      <ion-range
+        min="0"
+        [color]="
+        evaluationTwo < 7
+          ? 'danger'
+          : evaluationTwo < 9
+          ? 'warning'
+          : 'secondary'
+      "
+        required
+        max="10"
+        step="1"
+        snaps="true"
+        pin="true"
+        (ionChange)="reason_two = null; subreason_two = null"
+        [(ngModel)]="evaluationTwo"
+        name="evaluationTwo"
+      >
+      </ion-range>
+    </ion-item>
+    <div
+      class="justify"
+      *ngIf="currentLang == 'pt-br' && evaluationTwo <= 6 && evaluationTwo > 0"
+    >
+      <ion-list
+        no-lines
+        class="reason-list"
+        radio-group
+        name="reason_two"
+        [(ngModel)]="reason_two"
+        required
+        (ionChange)="subreason_two == null"
+      >
+        <ion-list-header>Justifique sua Nota</ion-list-header>
+        <ion-item text-wrap *ngFor="let reason of reasonsTwoKeys">
+          <ion-label>{{ reason }}</ion-label>
+          <ion-radio item-start [value]="reason">{{ reason }}</ion-radio>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-item *ngIf="reason_two">
+          <ion-label stacked>Submotivos</ion-label>
+          <ion-select
+            [(ngModel)]="subreason_two"
+            [selectOptions]="selectOptions"
+            name="subreason_two"
+            multiple="true"
+            required
+            placeholder="Selecione submotivos"
+          >
+            <ion-option *ngFor="let sub of reasonsTwo[reason_two]"
+              >{{ sub }}</ion-option
+            >
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <div
+        class="justify comments"
+        *ngIf="currentLang == 'pt-br' && evaluationTwo <= 6  && evaluationTwo > 0"
+      >
+        <strong>Caso queira, complemente sua insatisfação</strong>
+        <ion-textarea
+          [(ngModel)]="comment_two"
+          name="comment_two"
+          auto-grow
+          rows="12"
+          (input)="adjustTextarea($event);"
+        ></ion-textarea>
+      </div>
+    </div>
+    <div class="justify" *ngIf="currentLang == 'pt-br' && evaluationTwo > 6">
+      <strong *ngIf="evaluationTwo == 9 || evaluationTwo == 10"
+        >Gostaria de adicionar um comentário?</strong
+      >
+      <strong *ngIf="evaluationTwo == 7 || evaluationTwo == 8"
+        >Gostaria de mencionar algum ponto de melhoria?</strong
+      >
+      <ion-textarea
+        [(ngModel)]="reason_two"
+        name="reason_two"
+        auto-grow
+        rows="12"
+        (input)="adjustTextarea($event);"
+      ></ion-textarea>
+    </div>
+  </form>
+</ion-content>
+<ion-footer no-padding>
+  <button
+    ion-button
+    color="primary"
+    [disabled]="form.invalid"
+    full
+    large
+    (click)="save()"
+    block
+  >
+    {{ "os_evaluation.conclude" | translate }}
+  </button>
+</ion-footer>

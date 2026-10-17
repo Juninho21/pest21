@@ -1,0 +1,123 @@
+<!--
+  Generated template for the ScheduleCreatePage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "interval_page.title" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form #form="ngForm">
+    <ion-list no-lines>
+      <ion-item-group>
+        <ion-item-divider color="primary">
+          {{ "interval_page.title" | translate }}
+        </ion-item-divider>
+        <ion-grid padding class="fields-grid">
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-item
+                no-padding
+                no-lines
+                class="no-border"
+                (click)="tryNewPicker('interval_date')"
+              >
+                <ion-label stacked
+                  >{{'interval_page.interval_day' | translate}}</ion-label
+                >
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="dd/mm/aaaa"
+                  required
+                  disabled
+                  max="2050"
+                  displayFormat="DD/MM/YYYY"
+                  pickerFormat="DD/MM/YYYY"
+                  [(ngModel)]="interval_date"
+                  (ionChange)="setMaxDate()"
+                  name="interval_date"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6 no-padding>
+              <ion-item
+                no-padding
+                no-lines
+                class="no-border"
+                (click)="tryNewPicker('start_time')"
+              >
+                <ion-label stacked>Data/Hora Início</ion-label>
+                <ion-datetime
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  max="{{ maxDate }}"
+                  placeholder="hh:mm"
+                  required
+                  disabled
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  [(ngModel)]="start_time"
+                  (ionChange)="setEndTime()"
+                  name="start_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col col-6 no-padding>
+              <ion-item no-padding no-lines class="no-border" disable>
+                <ion-label stacked
+                  >{{'interval_page.end_date' | translate}}</ion-label
+                >
+                <ion-datetime
+                  disabled
+                  cancelText="{{'cancel' | translate}}"
+                  doneText="{{'confirm' | translate}}"
+                  placeholder="hh:mm"
+                  [min]="start_time"
+                  required
+                  disabled
+                  displayFormat="HH:mm"
+                  pickerFormat="HH:mm"
+                  [(ngModel)]="end_time"
+                  name="end_time"
+                ></ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-12>
+              <p>{{'interval_page.end_warn' | translate}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid padding>
+          <ion-row>
+            <ion-col no-padding col-12
+              ><button
+                ion-button
+                full
+                [disabled]="form.invalid || start_time >= end_time"
+                color="primary"
+                (click)="save(form)"
+              >
+                {{'save' | translate}}
+              </button></ion-col
+            >
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+  </form>
+</ion-content>

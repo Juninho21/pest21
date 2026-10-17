@@ -1,0 +1,167 @@
+// Styles for page-login
+page-login .language-selector {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+page-login .container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+page-login .login-content {
+  background: url("../assets/imgs/bg-blue.png") no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+page-login .login-content .login-list {
+  width: 100%;
+}
+
+page-login .login-content .scroll-content {
+  overflow-y: auto !important;
+}
+
+page-login .login-content .scroll-content:after, page-login .login-content .scroll-content:before {
+  display: none;
+}
+
+page-login .login-content p {
+  white-space: normal;
+  color: #fff;
+  text-align: center;
+  margin: 15px auto 0px auto;
+}
+
+page-login .login-content .item {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+page-login .login-content .item .item-inner {
+  border: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  margin-left: 0px;
+}
+
+page-login .login-content .item:first-child {
+  border-top: none;
+}
+
+page-login .login-content form input.text-input {
+  color: #fff;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+
+page-login .login-content form .icon {
+  color: #fff;
+}
+
+page-login .login-content form .no-validate .text-input {
+  background: url("../assets/imgs/no_validate_sm.png") no-repeat 100% 30%;
+  border-bottom-color: #000;
+}
+
+page-login .login-content .button-block {
+  width: 150px;
+  margin: 20px auto;
+}
+
+page-login .item-input .label-md,
+page-login .item-select .label-md,
+page-login .item-datetime .label-md,
+page-login .input-has-focus .label-md[floating],
+page-login .label-ios {
+  color: #fff;
+}
+
+page-login .login-icon {
+  position: relative;
+  right: 5px;
+  top: 10px;
+  width: 19px;
+  height: 19px;
+  display: inline-block;
+}
+
+page-login .login-icon img {
+  margin: 0 auto;
+  display: block;
+}
+
+page-login .item-md.login-tip {
+  color: #000;
+  min-height: 2rem;
+  margin-bottom: -10px;
+}
+
+page-login .item-md.login-tip .label-md {
+  margin: -5px 0 0 26px;
+}
+
+page-login .logo {
+  margin: 20px auto 0px auto;
+  display: block;
+  width: 148px;
+  height: 99px;
+  opacity: 1;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+page-login .btn-active,
+page-login .btn-active:active,
+page-login .btn-active:focus,
+page-login .btn-active:hover,
+page-login .btn-active.button-md.activated {
+  background: #fff !important;
+  color: #008dcf;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-login .btn-inactive,
+page-login .btn-inactive:active,
+page-login .btn-inactive:focus,
+page-login .btn-inactive:hover,
+page-login .btn-inactive.button-md.activated {
+  background: #000 !important;
+  color: #fff !important;
+  opacity: 0.15 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-login .link-login {
+  color: #fff;
+  text-decoration: underline;
+  margin: 25px 0px 10px 42px;
+  display: inline-block;
+  padding-bottom: 2px;
+}

@@ -1,0 +1,8 @@
+{
+  "name": "Pest21",
+  "app_id": "12b3e90c",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

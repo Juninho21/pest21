@@ -1,0 +1,355 @@
+<!--
+  Generated template for the ServiceFormPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "os_vehicles.title" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item-group>
+      <ion-item-divider color="primary"
+        >{{ "os_vehicles.service_definition" | translate }}</ion-item-divider
+      >
+      <ion-item no-padding no-lines>
+        <ion-label stacked
+          >{{ "os_vehicles.plague_group_target" | translate }}</ion-label
+        >
+        <ionic-selectable
+          placeholder="{{'select' | translate}}"
+          item-content
+          [isMultiple]="false"
+          [(ngModel)]="target"
+          [items]="plague_groups"
+          itemValueField="id"
+          itemTextField="name"
+          [canSearch]="true"
+          searchPlaceholder="{{'search' | translate}}"
+          searchFailText="{{'no_items_found' | translate}}"
+        >
+        </ionic-selectable>
+      </ion-item>
+      <ion-item no-padding no-lines>
+        <ion-label stacked>{{ "os_vehicles.activity" | translate }}</ion-label>
+        <ion-select
+          placeholder="{{'select' | translate}}"
+          [(ngModel)]="activity"
+        >
+          <ion-option value="inspection"
+            >{{ "os_vehicles.inspection" | translate }}</ion-option
+          >
+          <ion-option value="treatment"
+            >{{ "os_vehicles.treatment" | translate }}</ion-option
+          >
+          <ion-option value="preventive_tratment"
+            >{{ "os_vehicles.preventive_tratment" | translate }}</ion-option
+          >
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="target && activity">
+      <ion-item-divider color="primary"
+        >{{ "os_vehicles.plate" | translate }}</ion-item-divider
+      >
+      <ion-grid padding class="fields-grid">
+        <ion-row>
+          <ion-col col-12 no-padding>
+            <ion-item no-padding no-lines class="no-border">
+              <ion-label stacked
+                >{{'os_vehicles.plate_single' | translate}}</ion-label
+              >
+              <ion-input
+                type="text"
+                [(ngModel)]="plate"
+                (input)="formatPlate($event)"
+                maxlength="8"
+                required
+                name="plate"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col no-padding col-12
+            ><button
+              ion-button
+              full
+              [disabled]="showAddPlate()"
+              color="primary"
+              (click)="addPlate(plate)"
+            >
+              {{'add' | translate}}
+            </button></ion-col
+          >
+        </ion-row>
+
+        <ion-list *ngIf="plates?.length">
+          <ion-item *ngFor="let plate of plates; let i = index" text-wrap >
+            
+            {{ plate }} 
+            
+            <button
+              ion-button
+              clear
+              item-end
+              (click)="plates.splice(i, 1)"
+            >
+              {{'remove' | translate}}
+            </button>
+          </ion-item>
+        </ion-list>
+        
+      </ion-grid>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="showItemGroupProducts()">
+      <ion-item-divider color="primary">
+        {{'os_vehicles.products' | translate}}
+      </ion-item-divider>
+
+      <ion-item no-padding>
+        <ion-label
+          >{{'os_vehicles.products_applied_question' | translate}}</ion-label
+        >
+        <ion-checkbox
+          item-right
+          secondary
+          name="hasProducts"
+          (ionChange)="productsArray = []; resetForm(productForm)"
+          [(ngModel)]="hasProducts"
+        ></ion-checkbox>
+      </ion-item>
+
+      <div *ngIf="hasProducts">
+        <form #productForm="ngForm">
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked>{{'os_vehicles.product' | translate}}</ion-label>
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              item-content
+              [isMultiple]="false"
+              name="product"
+              [(ngModel)]="product"
+              [items]="getOrdenedProducts(target.products)"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+            >
+            </ionic-selectable>
+          </ion-item>
+
+          <ion-grid padding class="fields-grid" *ngIf="product">
+            <ion-row>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_vehicles.diluent_unit' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="unity"
+                    (ionChange)="changeProductQty(product, unity, amountField)"
+                    required
+                    name="unity"
+                  ></ion-input>
+                  <!--<span item-right class="measure-label">{{product.measure}}</span>-->
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_vehicles.amount' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="tel"
+                    readonly
+                    [(ngModel)]="amount"
+                    #amountField
+                    required
+                    name="amount"
+                  ></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked>{{'os_vehicles.lote' | translate}}</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="lote"
+                    required
+                    name="lote"
+                  ></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border" (click)="setValidDate()">
+                  <ion-label stacked
+                    >{{'os_vehicles.validity' | translate}}</ion-label
+                  >
+                  <ion-datetime
+                    cancelText="{{'cancel' | translate}}"
+                    required
+                    doneText="{{'confirm' | translate}}"
+                    displayFormat="DD/MM/YYYY"
+                    [min]="currentDate"
+                    [max]="maxyear"
+                    [(ngModel)]="validDate"
+                    name="validDate"
+                  ></ion-datetime>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-item no-padding no-lines class="no-border" *ngIf="product">
+            <ion-label stacked
+              >{{'os_vehicles.application_mode' | translate}}</ion-label
+            >
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              item-content
+              [isMultiple]="false"
+              name="equipment"
+              [(ngModel)]="equipment"
+              [items]="equipments"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+            >
+            </ionic-selectable>
+          </ion-item>
+
+          <ion-grid
+            padding
+            class="fields-grid"
+            *ngIf="product && equipment?.has_volume"
+          >
+            <ion-row>
+              <ion-col col-12 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_vehicles.application_volume' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="application_volume"
+                    required
+                    name="application_volume"
+                  ></ion-input>
+                  <!--<span item-right class="measure-label">{{product.measure}}</span>-->
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid padding>
+            <ion-row>
+              <ion-col no-padding col-12
+                ><button
+                  ion-button
+                  full
+                  [disabled]="productForm.invalid"
+                  color="primary"
+                  (click)="addProduct(productForm)"
+                >
+                  {{'save' | translate}}
+                </button></ion-col
+              >
+            </ion-row>
+          </ion-grid>
+        </form>
+      </div>
+
+      <ion-list *ngIf="productsArray?.length">
+        <ion-item
+          *ngFor="let product of productsArray; let i = index"
+          text-wrap
+        >
+          <ion-icon name="md-alert" item-start></ion-icon>
+          <h2>{{'os_vehicles.products_applied' | translate}}</h2>
+          <p>
+            <strong>{{'os_vehicles.product' | translate}}: </strong>{{
+            product.product.name }}
+          </p>
+          <p *ngFor="let place of product.placeProduct">
+            <strong>{{'os_vehicles.local' | translate}}: </strong>{{ place.name }}
+          </p>
+          <p>
+            <strong>{{'os_vehicles.diluent_unit' | translate}}: </strong>{{
+            product.unity }}
+          </p>
+          <p>
+            <strong>{{'os_vehicles.amount' | translate}}: </strong>{{ product.amount
+            }}
+          </p>
+          <p>
+            <strong>{{'os_vehicles.lote' | translate}}: </strong>{{ product.lote }}
+          </p>
+          <p>
+            <strong>{{'os_vehicles.validity' | translate}}: </strong>{{
+            product.validDate | date: "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>{{'os_vehicles.application_mode' | translate}}: </strong>{{
+            product.equipment.name }}
+          </p>
+          <p *ngIf="product.application_volume">
+            <strong>{{'os_vehicles.application_volume' | translate}}: </strong>{{
+            product.application_volume }}
+          </p>
+
+          <button
+            ion-button
+            clear
+            item-end
+            (click)="productsArray.splice(i, 1)"
+          >
+            {{'remove' | translate}}
+          </button>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="showItemGroupNote()">
+      <ion-item-divider color="primary">
+       {{'os_vehicles.notes_tile' | translate}}
+      </ion-item-divider>
+      <ion-item no-padding no-lines class="no-border" text-wrap>
+        <p>{{'os_vehicles.notes_lettering' | translate}}</p>
+      </ion-item>
+      <ion-item no-padding no-lines class="no-border number-input">
+          <ion-label stacked>{{'os_vehicles.notes' | translate}}</ion-label>
+          <ion-textarea placeholder="{{'os_vehicles.notes' | translate}}" [(ngModel)]="note" name="note"></ion-textarea>
+        </ion-item>
+    </ion-item-group>
+
+    <button
+      *ngIf="showButtonSave()"
+      ion-button
+      block
+      large
+      color="primary"
+      [disabled]="!target || (hasProducts && !productsArray.length)"
+      (click)="save()"
+    >
+      {{'save' | translate}}
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,66 @@
+<ion-content>
+  <div ion-fixed>
+  <div class="overlay"></div>
+    <form #pestForm="ngForm">
+    <ion-card *ngIf="type == 'normal'">
+      <ion-card-header padding-horizontal>
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col col-5 no-padding>{{'os_form.plague' | translate}}</ion-col>
+            <ion-col col-3 no-padding>{{'os_form.dead' | translate}}</ion-col>
+            <ion-col col-1 no-padding></ion-col>
+            <ion-col col-3 no-padding>{{'os_form.live' | translate}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-grid padding-horizontal>
+        <ion-row class="fix-row" margin-bottom *ngFor="let plague of plagues; let i = index">
+          <ion-col col-5 no-padding>{{plague.name}}</ion-col>
+          <ion-col col-3 no-padding>
+            <ion-input type="tel" placeholder="0" [(ngModel)]="plague.dead" name="pest-1"></ion-input>
+          </ion-col>
+          <ion-col col-1 no-padding></ion-col>
+          <ion-col col-3 no-padding>
+            <ion-input type="tel" placeholder="0" [(ngModel)]="plague.live" name="pest-2"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <button ion-button full large color="primary" (click)="closeModal(pestForm)">{{'confirm' | translate}}</button>
+    </ion-card>
+
+    <ion-card *ngIf="type == 'amount'">
+      <ion-card-header padding-horizontal>
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col col-5 no-padding>{{'os_form.plague' | translate}}</ion-col>
+            <ion-col col-3 no-padding></ion-col>
+            <ion-col col-1 no-padding></ion-col>
+            <ion-col col-3 no-padding>{{'os_form.amount' | translate}}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-scroll scrollY="true" overflow-scroll="true">
+      <ion-grid padding-horizontal>
+          <ion-row class="fix-row" margin-bottom *ngFor="let plague of plagues; let i = index">
+          <ion-col col-5 no-padding>{{plague.name}}</ion-col>
+          <ion-col col-3 no-padding></ion-col>
+          <ion-col col-1 no-padding></ion-col>
+          <ion-col col-3 no-padding>
+            <ion-input type="tel" [(ngModel)]="plague.count" placeholder="0" name="plague_{{1}}"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-scroll>
+
+    <ion-row class="cardfooter">
+        <ion-col no-padding>
+            <button ion-button full large color="primary" (click)="closeModal(pestForm)">{{ 'confirm' | translate}}</button>
+        </ion-col>
+      </ion-row>
+     
+   
+    </ion-card>
+
+  </form>
+</div>
+</ion-content>

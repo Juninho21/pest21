@@ -1,0 +1,543 @@
+<!--
+  Generated template for the ServiceOrderResumePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-toolbar no-padding>
+    <ion-navbar color="primary">
+      <ion-buttons left>
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title>{{'os_resume.title' | translate}}</ion-title>
+    </ion-navbar>
+    <ion-segment [(ngModel)]="selector" color="primary">
+      <ion-segment-button value="services">
+        {{'services' | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="unconformities"> N/C </ion-segment-button>
+      <ion-segment-button value="counting">
+        {{'os_count.short_title' | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="mip">
+        {{'mip' | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="comments">
+        {{'obs' | translate}}
+      </ion-segment-button>
+      <ion-segment-button value="vehicles">
+        {{'vehicles' | translate}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [ngSwitch]="selector">
+    <ion-list class="custom-list" padding no-lines *ngSwitchCase="'services'">
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.services"
+      >
+        <p>{{'os_resume.no_service' | translate}}</p>
+      </ion-item>
+      <ion-item-group *ngFor="let service of services.services; let i = index">
+        <ion-item-divider color="primary">
+          {{'service' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteService(i)"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines margin-top class="no-border" text-wrap>
+          <h2>{{'os_form.plague_group_target' | translate}}:</h2>
+          <p>{{service.target.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_form.activity' | translate}}:</h2>
+          <p>{{getActivityName(service.activity)}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_form.sector_locals' | translate}}:</h2>
+          <p *ngFor="let sector of service.sector">{{sector.name}}</p>
+        </ion-item>
+
+        <div *ngIf="service.hasPlagues">
+          <hr margin-bottom />
+          <h3 padding-horizontal no-margin>
+            {{'os_form.plague_identification' | translate}}
+          </h3>
+          <ion-card
+            class="inner-card"
+            *ngFor="let sector of service.sectorPlagues; let i = index;"
+          >
+            <ion-item no-padding no-lines class="no-border" text-wrap>
+              <h2>{{'os_form.local_sector' | translate}}:</h2>
+              <p>{{ sector.name }}</p>
+            </ion-item>
+
+            <ion-list *ngIf="sector.plagues.length">
+              <ion-item *ngFor="let pest of sector.plagues; let a = index">
+                <ion-icon name="bug" item-start></ion-icon>
+                <h2>{{pest.name}}</h2>
+                <p *ngIf="pest.dead && pest.dead > 0">
+                  <strong>{{'os_form.dead' | translate}}: </strong>{{pest.dead}}
+                </p>
+                <p *ngIf="pest.live && pest.live > 0">
+                  <strong>{{'os_form.live' | translate}}: </strong>{{pest.live}}
+                </p>
+              </ion-item>
+            </ion-list>
+          </ion-card>
+        </div>
+
+        <div *ngIf="service.hasTraces">
+          <hr margin-bottom />
+          <h3 padding-horizontal no-margin>
+            {{'os_form.traces_found' | translate}}
+          </h3>
+          <ion-list>
+            <ion-item
+              *ngFor="let evidence of service.tracesArray; let i = index"
+            >
+              <ion-icon name="md-warning" item-start></ion-icon>
+              <h2>{{'os_form.traces_found' | translate}}</h2>
+              <p class="devices-wrap">
+                <strong>{{'os_form.traces' | translate}}: </strong
+                ><span *ngFor="let item of evidence.evidences; let b = index"
+                  >{{item.name}}{{b != evidence.evidences.length - 1 ? ', ' :
+                  ''}}</span
+                >
+              </p>
+              <p *ngFor="let place of evidence.places">
+                <strong>{{'os_form.local' | translate}}: </strong>{{place.name}}
+              </p>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div *ngIf="service.hasProducts">
+          <hr margin-bottom />
+          <h3 padding-horizontal no-margin>
+            {{'os_form.products_applied' | translate}}
+          </h3>
+          <ion-list *ngIf="service.productsArray?.length">
+            <ion-item
+              *ngFor="let product of service.productsArray; let i = index"
+              text-wrap
+            >
+              <ion-icon name="md-alert" item-start></ion-icon>
+              <h2>{{'os_form.products_applied' | translate}}</h2>
+              <p>
+                <strong>{{'os_form.product' | translate}}: </strong
+                >{{product.product.name}}
+              </p>
+              <p *ngFor="let place of product.placeProduct">
+                <strong>Local: </strong>{{place.name}}
+              </p>
+              <p>
+                <strong>{{'os_form.diluent_unit' | translate}}: </strong
+                >{{product.unity}}
+              </p>
+              <p>
+                <strong>{{'os_form.amount' | translate}}: </strong
+                >{{product.amount}}
+              </p>
+              <p>
+                <strong>{{'os_form.lote' | translate}}: </strong
+                >{{product.lote}}
+              </p>
+              <p>
+                <strong>{{'os_form.validity' | translate}}: </strong
+                >{{product.validDate | date:"dd/MM/yyyy"}}
+              </p>
+              <p>
+                <strong>{{'os_form.application_mode' | translate}}: </strong>{{
+                product.equipment.name }}
+              </p>
+              <p *ngIf="product.application_volume">
+                <strong>{{'os_form.application_volume' | translate}}: </strong
+                >{{product.application_volume }}
+              </p>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div *ngIf="service.hasDevices">
+          <hr margin-bottom />
+          <h3 padding-horizontal no-margin>
+            {{'os_form.device_review' | translate}}
+          </h3>
+          <ion-list *ngIf="service.devicesArray?.length" padding>
+            <ion-card
+              ion-item
+              class="inner-card"
+              *ngFor="let device of service.devicesArray; let i = index"
+            >
+              <ion-card-header> {{device.name}} </ion-card-header>
+              <ion-item *ngFor="let status of device.statuses">
+                <ion-icon name="md-alert" item-start></ion-icon>
+                <h2>{{status.name}}</h2>
+                <p class="devices-wrap">
+                  <strong>{{'os_form.devices' | translate}}: </strong>
+                  <span *ngFor="let dd of status.installed; let b = index;">
+                    {{dd.name}}{{b == status.installed.length - 1 ? '.' : ',' }}
+                  </span>
+                </p>
+              </ion-item>
+            </ion-card>
+          </ion-list>
+        </div>
+      </ion-item-group>
+    </ion-list>
+
+
+
+
+
+
+
+    <ion-list class="custom-list" padding no-lines *ngSwitchCase="'vehicles'">
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.vehicles"
+      >
+        <p>{{'os_resume.no_service' | translate}}</p>
+      </ion-item>
+      <ion-item-group *ngFor="let vehicle of services.vehicles; let i = index">
+        <ion-item-divider color="primary">
+          {{'vehicles' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteVehicle(i)"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines margin-top class="no-border" text-wrap>
+          <h2>{{'os_vehicles.plague_group_target' | translate}}:</h2>
+          <p>{{vehicle.target.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_vehicles.activity' | translate}}:</h2>
+          <p>{{getActivityName(vehicle.activity)}}</p>
+        </ion-item>
+        
+        <ion-item no-padding no-lines class="no-border" text-wrap  >
+          <h2>{{'os_vehicles.plate' | translate}}:</h2>
+          <div *ngFor="let plate of vehicle.plates; let i = index">
+            {{ plate }}
+          </div>
+        </ion-item>
+
+        
+
+        <div *ngIf="vehicle.hasProducts">
+          <hr margin-bottom />
+          <h3 padding-horizontal no-margin>
+            {{'os_vehicles.products_applied' | translate}}
+          </h3>
+          <ion-list *ngIf="vehicle.productsArray?.length">
+            <ion-item
+              *ngFor="let product of vehicle.productsArray; let i = index"
+              text-wrap
+            >
+              <ion-icon name="md-alert" item-start></ion-icon>
+              <h2>{{'os_vehicles.products_applied' | translate}}</h2>
+              <p>
+                <strong>{{'os_vehicles.product' | translate}}: </strong
+                >{{product.product.name}}
+              </p>
+              <p *ngFor="let place of product.placeProduct">
+                <strong>Local: </strong>{{place.name}}
+              </p>
+              <p>
+                <strong>{{'os_vehicles.diluent_unit' | translate}}: </strong
+                >{{product.unity}}
+              </p>
+              <p>
+                <strong>{{'os_vehicles.amount' | translate}}: </strong
+                >{{product.amount}}
+              </p>
+              <p>
+                <strong>{{'os_vehicles.lote' | translate}}: </strong
+                >{{product.lote}}
+              </p>
+              <p>
+                <strong>{{'os_vehicles.validity' | translate}}: </strong
+                >{{product.validDate | date:"dd/MM/yyyy"}}
+              </p>
+              <p>
+                <strong>{{'os_vehicles.application_mode' | translate}}: </strong>{{
+                product.equipment.name }}
+              </p>
+              <p *ngIf="product.application_volume">
+                <strong>{{'os_vehicles.application_volume' | translate}}: </strong
+                >{{product.application_volume }}
+              </p>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <ion-item  no-padding no-lines class="no-border" text-wrap *ngIf="vehicle.note">
+          <h2>{{'os_vehicles.notes_tile' | translate}}:</h2>
+          <p>{{vehicle.note}}</p>
+        </ion-item>
+
+      </ion-item-group>
+    </ion-list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <ion-list
+      class="custom-list"
+      padding
+      no-lines
+      *ngSwitchCase="'unconformities'"
+    >
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.unconformities"
+      >
+        <p>{{'os_resume.no_unconformity' | translate}}</p>
+      </ion-item>
+      <ion-item-group
+        *ngFor="let unconformity of services.unconformities let i = index"
+      >
+        <ion-item-divider color="primary">
+          {{'os_noncompliance.no_conformity' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteGeneral(i, 'unconformities')"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines margin-top class="no-border" text-wrap>
+          <h2>{{'os_noncompliance.area_sector' | translate}}:</h2>
+          <p>{{unconformity.sector.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_noncompliance.no_conformity' | translate}}:</h2>
+          <p>{{unconformity.type.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_noncompliance.problems_found' | translate}}:</h2>
+          <p>{{unconformity.problem.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_noncompliance.suggested_actions' | translate}}:</h2>
+          <p *ngFor="let suggested of unconformity.suggested_actions">
+            {{suggested.description}}
+          </p>
+        </ion-item>
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          text-wrap
+          *ngIf="unconformity.comments"
+        >
+          <h2>{{'notes' | translate}}:</h2>
+          <p>{{unconformity.comments}}</p>
+        </ion-item>
+        <ion-grid class="pictures-grid" *ngIf="unconformity.pictures">
+          <ion-row>
+            <ion-col
+              col-4
+              *ngFor="let picture of unconformity.pictures; let i = index;"
+            >
+              <img [src]="picture" (click)="openPicture(picture)" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-list class="custom-list" padding no-lines *ngSwitchCase="'counting'">
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.insect_counting"
+      >
+        <p>{{'os_resume.no_count' | translate}}</p>
+      </ion-item>
+      <ion-item-group
+        *ngFor="let count of services.insect_counting; let i = index"
+      >
+        <ion-item-divider color="primary">
+          {{'os_count.short_title' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteGeneral(i, 'insect_counting', count)"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines margin-top class="no-border" text-wrap>
+          <h2>{{'os_count.device' | translate}}:</h2>
+          <p>{{count.device.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_count.device_number' | translate}}:</h2>
+          <p>{{count.deviceNumber.name}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_form.plagues_found' | translate}}:</h2>
+          <p>{{(!count.noPestFound ? 'yes' : 'no') | translate}}</p>
+        </ion-item>
+        <ion-list *ngIf="!count.noPestFound">
+          <ion-item *ngFor="let pest of count.plagues; let a = index">
+            <ion-icon name="bug" item-start></ion-icon>
+            <h2>{{pest.name}}</h2>
+            <p>
+              <strong>{{'os_count.amount' | translate}}: </strong>{{pest.count ?
+              pest.count : 0}}
+            </p>
+          </ion-item>
+        </ion-list>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-list class="custom-list" padding no-lines *ngSwitchCase="'mip'">
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.mips"
+      >
+        <p>{{'os_resume.no_mips' | translate}}</p>
+      </ion-item>
+      <ion-item-group *ngFor="let mip of services.mips; let i = index">
+        <ion-item-divider color="primary">
+          {{'mip' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteGeneral(i, 'mips')"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines margin-top class="no-border" text-wrap>
+          <h2>{{'os_mip.start_date' | translate}}:</h2>
+          <p>{{mip.startDate | date}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_mip.end_date' | translate}}:</h2>
+          <p>{{mip.endDate | date}}</p>
+        </ion-item>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <h2>{{'os_form.sector' | translate}}:</h2>
+          <p>{{mip.sector.name}}</p>
+        </ion-item>
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          text-wrap
+          *ngIf="mip.comments"
+        >
+          <h2>{{'notes' | translate}}:</h2>
+          <p>{{mip.comments}}</p>
+        </ion-item>
+        <hr margin-bottom />
+        <ion-list *ngIf="mip.plagues.length">
+          <h3 padding-horizontal no-margin>
+            {{'os_form.plague_identification' | translate}}
+          </h3>
+          <ion-item *ngFor="let pest of mip.plagues; let a = index">
+            <ion-icon name="bug" item-start></ion-icon>
+            <h2>{{pest.name}}</h2>
+            <p>
+              <strong>{{'os_mip.amount' | translate}}: </strong>{{pest.count ?
+              pest.count : 0}}
+            </p>
+          </ion-item>
+        </ion-list>
+      </ion-item-group>
+    </ion-list>
+
+    <ion-list class="custom-list" padding no-lines *ngSwitchCase="'comments'">
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        text-wrap
+        *ngIf="!services.comments"
+      >
+        <p>{{'os_resume.no_notes' | translate}}</p>
+      </ion-item>
+      <ion-item-group *ngFor="let comment of services.comments; let i = index">
+        <ion-item-divider color="primary">
+          {{'note' | translate}} #{{i+1}}
+          <button
+            ion-button
+            icon-only
+            clear
+            color="light"
+            item-right
+            (click)="deleteGeneral(i, 'comments')"
+          >
+            <ion-icon name="close-circle"></ion-icon>
+          </button>
+        </ion-item-divider>
+        <ion-item no-padding no-lines class="no-border" text-wrap>
+          <p>{{comment}}</p>
+        </ion-item>
+      </ion-item-group>
+    </ion-list>
+  </div>
+</ion-content>

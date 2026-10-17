@@ -1,0 +1,257 @@
+<!--
+  Generated template for the CalendarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons right>
+      <button ion-button icon-button (click)="setTimeInterval()">
+        <ion-icon name="md-clock" margin-right></ion-icon>
+        {{now | date:'HH:mm'}}
+      </button>
+
+      <button ion-button icon-button class="reload-button" (click)="update()">
+        <ion-icon name="md-refresh"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="settings()">
+        <ion-icon name="md-more"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{'calendar.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+  <h2 class="calendar-title">{{viewTitle}}</h2>
+  <calendar
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onRangeChanged)="reloadSource(startTime, endTime)"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    [locale]="calendar.locale"
+    [startingDayWeek]="1"
+    [monthviewEventDetailTemplate]="template"
+    [weekviewNormalEventTemplate]="weekview"
+    [dayviewNormalEventTemplate]="weekview"
+    [step]="15"
+    [timeInterval]="30"
+    [startHour]="0"
+    [endHour]="24"
+    [autoSelect]="true"
+    [dateFormatter]="calendar.dateFormatter"
+  >
+  </calendar>
+
+  <ng-template #weekview let-displayEvent="displayEvent">
+    <div
+      *ngIf="!displayEvent.event.data.scheduling.schedule_types.is_travel || !displayEvent.event.data.scheduling.schedule_types.is_interval"
+      class="calendar-event-inner"
+      [ngClass]="getTypeClass(displayEvent.event.data.scheduling.schedule_types)"
+    >
+      {{displayEvent.event.title}}
+    </div>
+    <div
+      *ngIf="displayEvent.event.data.scheduling.schedule_types.is_travel"
+      class="calendar-event-inner"
+      [ngClass]="'type_travel'"
+    >
+      {{'displacement' | translate}}
+    </div>
+    <div
+      *ngIf="displayEvent.event.data.scheduling.schedule_types.is_interval"
+      class="calendar-event-inner"
+      [ngClass]="'type_interval'"
+    >
+      {{'interval' | translate}}
+    </div>
+  </ng-template>
+
+  <ng-template #dayview let-displayEvent="displayEvent">
+    <div
+      *ngIf="!displayEvent.event.data.scheduling.schedule_types.is_travel || !displayEvent.event.data.scheduling.schedule_types.is_interval"
+      class="calendar-event-inner"
+      [ngClass]="getTypeClass(displayEvent.event.data.scheduling.schedule_types)"
+    >
+      {{displayEvent.event.title}}
+    </div>
+    <div
+      *ngIf="displayEvent.event.data.scheduling.schedule_types.is_travel"
+      class="calendar-event-inner"
+      [ngClass]="'type_travel'"
+    >
+      {{'displacement' | translate}}
+    </div>
+    <div
+      *ngIf="displayEvent.event.data.scheduling.schedule_types.is_interval"
+      class="calendar-event-inner"
+      [ngClass]="'type_interval'"
+    >
+      {{'interval' | translate}}
+    </div>
+  </ng-template>
+
+  <ng-template
+    #template
+    let-showEventDetail="showEventDetail"
+    let-selectedDate="selectedDate"
+    let-noEventsLabel="noEventsLabel"
+  >
+    <div padding *ngIf="selectedDate.events.length > 0">
+      <h3 padding *ngIf="selectedDate.events.length">
+        {{'calendar.schedule_current_date' | translate}}
+      </h3>
+      <ng-template let-os ngFor [ngForOf]="selectedDate.events">
+        <ion-card
+          margin-bottom
+          no-padding
+          class="card-order"
+          [class.pending]="os.data.scheduling.status == 'PENDING'"
+          [class.rejected]="os.data.scheduling.status == 'REJECTED'"
+          [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+          *ngIf="!os.data.scheduling.schedule_types.is_travel && !os.data.scheduling.schedule_types.is_interval && !os.data.scheduling.schedule_types.is_vacation"
+        >
+          <!--<ion-card-header
+            lines
+            [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+          >
+            {{'service_order' | translate}} - {{os.data.scheduling.id}}
+            {{os.data.scheduling.os_id || os.data.scheduling.synced == true ? '
+            - [Já executada]' : ''}} {{os.data.scheduling.delayed ? ' - [NO
+            SHOW]' : ''}}
+          </ion-card-header>-->
+          <ion-card-header
+            lines
+            [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+          >
+            <ion-row>
+              <ion-col col-4 class="title"
+                >{{'client_code' | translate}}</ion-col
+              >
+              <ion-col col-8
+                >{{os.data.scheduling.contract.client.code}}</ion-col
+              >
+            </ion-row>
+          </ion-card-header>
+
+          <ion-grid class="table-order">
+            <ion-row>
+              <ion-col col-12 class="title"
+                >{{'fantasy_name' | translate}}</ion-col
+              >
+              <ion-col col-12
+                >{{os.data.scheduling.contract.client.fantasy_name}}</ion-col
+              >
+            </ion-row>
+            <!--<ion-row>
+              <ion-col col-4>{{'address' | translate}}:</ion-col>
+              <ion-col col-8
+                >{{os.data.scheduling.contract.client.street}}</ion-col
+              >
+            </ion-row> -->
+            <ion-row>
+              <ion-col col-12 class="title">Status</ion-col>
+              <ion-col col-12>
+                <button no-padding ion-button icon-start clear color="light">
+                  <ion-icon
+                    [name]="getScheduleStatus(os.data.scheduling)?.icon"
+                  ></ion-icon>
+                  {{getScheduleStatus(os.data.scheduling)?.text}}
+                </button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-12 class="title">Tempo de Deslocamento</ion-col>
+              <ion-col col-12
+                >{{convertMinsToHrsMins(os.data.scheduling.travel_time)}}</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col col-12 class="title"
+                >{{'scheduled_time' | translate}}:</ion-col
+              >
+              <ion-col col-12
+                >{{os.data.scheduling.start_time | date:"dd/MM/yyyy"}} - De
+                {{os.data.scheduling.start_time | date:"HH:mm"}}<br />
+                {{os.data.scheduling.end_time | date:"dd/MM/yyyy"}} - Até
+                {{os.data.scheduling.end_time | date:"HH:mm"}}</ion-col
+              >
+            </ion-row>
+            <ion-row
+              *ngIf="os.data.scheduling.status == 'SYSTEM' || os.data.scheduling.status == 'APPROVED'"
+            >
+              <button
+                *ngIf="!os.data.scheduling.os_id || !os.data.scheduling.synced"
+                ion-button
+                color="primary"
+                (click)="openOS(os.data)"
+                full
+              >
+                {{'see_service_order' | translate}}
+              </button>
+            </ion-row>
+            <ion-row *ngIf="os.data.scheduling.status == 'PENDING'">
+              <button ion-button color="warning" full>
+                PENDENTE - AGUARDANDO APROVAÇÃO
+              </button>
+            </ion-row>
+            <ion-row *ngIf="os.data.scheduling.status == 'REJECTED'">
+              <button
+                ion-button
+                color="danger"
+                full
+                (click)="openAlterSchedule(os.data.scheduling)"
+              >
+                NÃO APROVADO PELO GESTOR
+              </button>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+        <ion-card
+          margin-bottom
+          no-padding
+          class="card-order"
+          [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+          *ngIf="os.data.scheduling.schedule_types.is_travel || os.data.scheduling.schedule_types.is_interval || os.data.scheduling.schedule_types.is_vacation"
+        >
+          <ion-card-header
+            lines
+            [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+            *ngIf="os.data.scheduling.schedule_types.is_travel || os.data.scheduling.schedule_types.is_interval"
+          >
+            {{(os.data.scheduling.schedule_types.is_travel ? 'displacement' :
+            'interval') | translate}}
+          </ion-card-header>
+          <ion-card-header
+            lines
+            [ngClass]="getTypeClass(os.data.scheduling.schedule_types)"
+            *ngIf="os.data.scheduling.schedule_types.is_vacation"
+          >
+            {{'vacations' | translate}}
+          </ion-card-header>
+          <ion-grid class="table-order">
+            <ion-row>
+              <ion-col col-4>{{'start_time' | translate}}:</ion-col>
+              <ion-col col-8
+                >{{os.data.scheduling.start_time | date:"dd/MM/yyyy
+                HH:mm"}}</ion-col
+              >
+            </ion-row>
+            <ion-row>
+              <ion-col col-4>{{'end_time' | translate}}:</ion-col>
+              <ion-col col-8
+                >{{os.data.scheduling.end_time | date:"dd/MM/yyyy
+                HH:mm"}}</ion-col
+              >
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ng-template>
+    </div>
+  </ng-template>
+</ion-content>

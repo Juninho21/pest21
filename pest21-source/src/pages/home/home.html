@@ -1,0 +1,108 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title><img src="assets/imgs/logo.svg" class="logo" /></ion-title>
+    <ion-buttons right>
+      <button ion-button icon-button class="reload-button" (click)="update()">
+        <ion-icon name="md-refresh"></ion-icon>
+      </button>
+      <button
+        ion-button
+        icon-only
+        (click)="openPendings()"
+        *ngIf="api.pendings?.length"
+      >
+        <ion-icon name="md-alert" large></ion-icon>
+        <ion-badge small [class.active]="api.pendings?.length"
+          >{{api.pendings?.length}}</ion-badge
+        >
+      </button>
+      <button ion-button icon-only (click)="openNotifications()">
+        <ion-icon name="md-notifications" large></ion-icon>
+        <ion-badge small [class.active]="notifications?.length"
+          >{{notifications?.length}}</ion-badge
+        >
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-card *ngIf="warningCard">
+    <h2 padding>{{'home.open_os' | translate}}</h2>
+
+    <button no-margin full ion-button color="primary" (click)="continueOS()">
+      {{ "home.continue" | translate }}
+    </button>
+  </ion-card>
+  <div class="container" padding>
+    <h2>{{'home.welcome' | translate}}</h2>
+    <p [innerHTML]="'home.lettering' | translate"></p>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <button
+            (click)="openCalendar()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="md-calendar"></ion-icon>
+              <label>{{'schedule' | translate}}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openClients()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="md-people"></ion-icon>
+              <label>{{'clients' | translate}}</label>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <button
+            (click)="openProfile()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="md-contact"></ion-icon>
+              <label>{{'my_data' | translate}}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button (click)="openDocuments()" ion-button outline block color="primary">
+            <div>
+              <ion-icon name="document"></ion-icon>
+              <label>{{'documents' | translate}}</label>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,17 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+$colors: (
+  primary:    #008dcf,
+  secondary:  #388e3c,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222222,
+  warning:    #fecb09
+);
+
+$font-path: "../assets/fonts";
+@import "ionic.theme.default";
+@import "ionic.ionicons";
+@import "roboto";
+@import "noto-sans";

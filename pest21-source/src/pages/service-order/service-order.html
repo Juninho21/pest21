@@ -1,0 +1,162 @@
+<!--
+    Generated template for the ServiceOrderPage page.
+    
+    See http://ionicframework.com/docs/components/#navigation for more info on
+    Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "service_order" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="container" padding>
+    <!-- <h2>Bem vindo.</h2> 
+            <p>Selecione uma das opções para interagir com a OS.</p>-->
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <button
+            (click)="openOsDetails()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="ios-clipboard-outline"></ion-icon>
+              <label>{{ "os_data" | translate }}.</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openServiceForm()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="ios-clipboard-outline"></ion-icon>
+              <label>{{ "service" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openNonCompilancePage()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="custom-warning"></ion-icon>
+              <label>{{ "non_compliances" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openCounting()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="custom-counter"></ion-icon>
+              <label>{{ "counting" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+
+        <ion-col col-6>
+          <button (click)="openMip()" ion-button outline block color="primary">
+            <div>
+              <ion-icon name="custom-mip"></ion-icon>
+              <label>{{ "mip" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openServiceNotes()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="custom-chat"></ion-icon>
+              <label>{{ "notes" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6 *ngIf="mainAudit">
+          <button
+            (click)="openAuditPage()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="checkbox-outline"></ion-icon>
+              <label>{{ "audit" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6 *ngIf="user_company_id === 1 || user_company_id === 9 || user_company_id === 10 || user_company_id === 11 || user_company_id === 12" >
+          <button
+            (click)="openVehiclePage()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="car"></ion-icon>
+              <label>{{ "vehicles" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openResumePage()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="custom-resume"></ion-icon>
+              <label>{{ "summary" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+          <button
+            (click)="openEvaluationPage()"
+            ion-button
+            outline
+            block
+            color="primary"
+          >
+            <div>
+              <ion-icon name="custom-approve"></ion-icon>
+              <label>{{ "approval" | translate }}</label>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

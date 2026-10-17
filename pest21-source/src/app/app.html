@@ -1,0 +1,34 @@
+<ion-menu [content]="content" class="auth-menu" color="primary">
+  <ion-content>
+    <ion-list>
+      <ion-item color="transparent" no-lines class="profile-cont">
+        <ion-avatar item-start>
+          <img src="assets/imgs/pests.png" class="profile-pic">
+        </ion-avatar>
+        <h2>{{ api.currentUser && api.currentUser.name ? api.currentUser.name : '' }}</h2>
+        <p>Técnico ECOLAB</p>
+      </ion-item>
+      <button color="transparent" icon-left no-lines ion-item (click)="openCalendar(homePage)">
+        <ion-icon name="md-calendar" item-start></ion-icon>
+        {{'schedule' | translate}}
+      </button>
+      <button color="transparent" icon-left no-lines ion-item (click)="openCLientsPage()">
+        <ion-icon name="md-people" item-start></ion-icon>
+        {{'clients' | translate}}
+      </button>
+      <button color="transparent" icon-left no-lines ion-item (click)="openOSPage()">
+        <ion-icon name="md-clipboard" item-start></ion-icon>
+        {{'service_orders' | translate}}
+      </button>
+      <button color="transparent" icon-left no-lines ion-item (click)="openAboutPage()">
+        <ion-icon name="md-alert" item-start></ion-icon>
+        {{'about_app' | translate}}
+      </button>
+      <button color="transparent" icon-left no-lines ion-item (click)="logoff()">
+        <ion-icon name="md-log-out" item-start></ion-icon>
+        {{'logout' | translate}}
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>

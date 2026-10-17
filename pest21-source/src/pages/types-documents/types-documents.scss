@@ -1,0 +1,64 @@
+// Styles for page-types-documents
+page-types-documents ion-buttons[right] button {
+  margin: 0 8px;
+}
+
+page-types-documents .toolbar-title {
+  padding-left: 0 !important;
+}
+
+page-types-documents .logo {
+  max-height: 40px;
+  max-width: 100px;
+}
+
+page-types-documents .container {
+  width: 100%;
+  min-height: 100%;
+}
+
+page-types-documents .container h2 {
+  color: #008dcf;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 15px !important;
+}
+
+page-types-documents .container p {
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+page-types-documents .container ion-grid {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+
+page-types-documents .container ion-grid ion-row {
+  padding: 0;
+}
+
+page-types-documents .container ion-grid ion-col:nth-child(1) {
+  padding-left: 0;
+}
+
+page-types-documents .container ion-grid ion-col:nth-child(2) {
+  padding-right: 0;
+}
+
+page-types-documents .container button {
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  padding: 0;
+}
+
+page-types-documents .container button label {
+  display: block;
+}
+
+page-types-documents .container button ion-icon {
+  font-size: 45px;
+  margin-bottom: 8px;
+}

@@ -1,0 +1,143 @@
+// Styles for page-service-order-audit
+page-service-order-audit .button-container {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 100%;
+}
+
+page-service-order-audit .button-container.selected {
+  background-color: #008dcf;
+  border-radius: 5px;
+  color: #eee;
+}
+
+page-service-order-audit .break-line {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+page-service-order-audit .pictures-grid {
+  margin-top: 15px;
+}
+
+page-service-order-audit .pictures-grid .delete {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 30px;
+  font-size: 10px;
+  height: 30px;
+  z-index: 5;
+}
+
+page-service-order-audit .center-image {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 90%;
+  text-align: center;
+}
+
+page-service-order-audit img {
+  max-width: 100%;
+  /* Ajusta o tamanho da imagem para caber no contêiner */
+  height: auto;
+  /* Mantém a proporção da imagem */
+}
+
+page-service-order-audit ion-select, page-service-order-audit ionic-selectable {
+  background: #eee;
+  padding: 12px !important;
+  border-radius: 15px;
+  margin-top: 8px;
+}
+
+page-service-order-audit ion-item-group {
+  margin-bottom: 20px;
+  border-radius: 15px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
+  padding: 0 0 16px;
+}
+
+page-service-order-audit ion-item-group ion-item-divider ion-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+page-service-order-audit ion-item-group ion-item {
+  padding: 8px 16px !important;
+}
+
+page-service-order-audit ion-item-group ion-item.no-border {
+  border: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-service-order-audit ion-item-group ion-item .item-inner {
+  padding: 0 !important;
+}
+
+page-service-order-audit ion-item-group ion-item .no-border {
+  padding: 8px 16px !important;
+}
+
+page-service-order-audit ion-item-group ion-item .no-border.no-border {
+  border: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-service-order-audit ion-item-group ion-item .no-border .item-inner {
+  padding: 0 !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-service-order-audit ion-item-group .inner-card {
+  border-radius: 15px;
+  padding: 0 0 14px;
+  background: #ccc;
+  margin-bottom: 25px;
+}
+
+page-service-order-audit ion-item-group .inner-card ion-label {
+  color: #000 !important;
+}
+
+page-service-order-audit ion-item-group .inner-card ion-item {
+  background: transparent;
+}
+
+page-service-order-audit ion-item-group .inner-card-button ion-label {
+  margin: 0 !important;
+}
+
+page-service-order-audit ion-item-group .inner-card-button button {
+  margin-right: 0;
+}

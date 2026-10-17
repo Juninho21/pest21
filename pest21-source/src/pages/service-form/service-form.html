@@ -1,0 +1,886 @@
+<!--
+  Generated template for the ServiceFormPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-buttons left>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ "os_form.title" | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item-group>
+      <ion-item-divider color="primary"
+        >{{ "os_form.service_definition" | translate }}</ion-item-divider
+      >
+      <ion-item no-padding no-lines>
+        <ion-label stacked
+          >{{ "os_form.plague_group_target" | translate }}</ion-label
+        >
+        <ionic-selectable
+          placeholder="{{'select' | translate}}"
+          item-content
+          [isMultiple]="false"
+          [(ngModel)]="target"
+          [items]="plague_groups"
+          itemValueField="id"
+          itemTextField="name"
+          [canSearch]="true"
+          searchPlaceholder="{{'search' | translate}}"
+          searchFailText="{{'no_items_found' | translate}}"
+        >
+        </ionic-selectable>
+      </ion-item>
+      <ion-item no-padding no-lines>
+        <ion-label stacked>{{ "os_form.activity" | translate }}</ion-label>
+        <ion-select
+          placeholder="{{'select' | translate}}"
+          [(ngModel)]="activity"
+        >
+          <ion-option value="inspection"
+            >{{ "os_form.inspection" | translate }}</ion-option
+          >
+          <ion-option value="treatment"
+            >{{ "os_form.treatment" | translate }}</ion-option
+          >
+          <ion-option value="preventive_tratment"
+            >{{ "os_form.preventive_tratment" | translate }}</ion-option
+          >
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="target && activity && sectors">
+      <ion-item-divider color="primary">
+        {{ "os_form.activity_locals" | translate }}
+      </ion-item-divider>
+      <ion-item no-padding no-lines class="no-border">
+        <ion-label stacked>{{ "os_form.sector_locals" | translate }}</ion-label>
+        <ionic-selectable
+          #sectorComponent
+          placeholder="{{ 'select' | translate }}"
+          item-content
+          [canAddItem]="true"
+          [isMultiple]="true"
+          [(ngModel)]="sector"
+          [items]="sectors"
+          itemValueField="id"
+          itemTextField="name"
+          [canSearch]="true"
+          searchPlaceholder="{{ 'search' | translate }}"
+          searchFailText="{{ 'no_items_found' | translate }}"
+          addButtonText="{{ 'os_form.add_local' | translate }}"
+          (onChange)="portChange($event)"
+          [canClear]="false"
+          [canAddItem]="true"
+          [canSaveItem]="false"
+          [canDeleteItem]="false"
+          (onAddItem)="onAddPort($event)"
+          (onSaveItem)="onSavePort($event)"
+          (onDeleteItem)="onDeletePort($event)"
+        >
+          <ng-template
+            ionicSelectableAddItemTemplate
+            let-sector="item"
+            let-isAdd="isAdd"
+          >
+            <form [formGroup]="sectorForm" novalidate>
+              <ion-list>
+                <ion-item-divider>
+                  {{ (isAdd ? "os_form.add_sector_local" :
+                  "os_form.edit_sector_local") | translate }}
+                </ion-item-divider>
+                <ion-item>
+                  <ion-label>{{ "os_form.sector" | translate }}</ion-label>
+                  <ion-input
+                    type="text"
+                    formControlName="sectorName"
+                    autocorrect="off"
+                    autocapitalize="true"
+                  >
+                  </ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label>{{ "os_form.local" | translate }}</ion-label>
+                  <ion-input
+                    type="text"
+                    formControlName="sectorLocal"
+                    autocorrect="off"
+                    autocapitalize="true"
+                  >
+                  </ion-input>
+                </ion-item>
+              </ion-list>
+            </form>
+            <ion-footer>
+              <ion-toolbar>
+                <ion-row>
+                  <ion-col col-6>
+                    <button
+                      ion-button
+                      full
+                      no-margin
+                      (click)="sectorComponent.hideAddItemTemplate()"
+                    >
+                      {{ "cancel" | translate }}
+                    </button>
+                  </ion-col>
+                  <ion-col col-6>
+                    <button
+                      ion-button
+                      full
+                      no-margin
+                      (click)="isAdd ? addSector() : saveSector(port)"
+                      [disabled]="!sectorForm.valid"
+                    >
+                      {{'save' | translate}}
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-toolbar>
+            </ion-footer>
+          </ng-template>
+          <ng-template ionicSelectableFooterTemplate>
+            <ion-toolbar>
+              <ion-row>
+                <ion-col col-12 *ngIf="sectorComponent.canClear">
+                  <button
+                    ion-button
+                    full
+                    (click)="clear()"
+                    [disabled]="!sectorComponent.itemsToConfirm.length"
+                  >
+                    {{sectorComponent.clearButtonText}}
+                  </button>
+                </ion-col>
+                <ion-col col-6>
+                  <button ion-button full (click)="toggleItems()">
+                    {{(sectorComponent.itemsToConfirm.length ?
+                    'os_form.uncheck_all' : 'os_form.check_all') | translate}}
+                  </button>
+                </ion-col>
+                <ion-col col-6 *ngIf="sectorComponent.canAddItem">
+                  <button ion-button full (click)="onAddPort()">
+                    {{sectorComponent.addButtonText}}
+                  </button>
+                </ion-col>
+                <ion-col>
+                  <button ion-button full (click)="confirm()">
+                    {{sectorComponent.confirmButtonText}}
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-toolbar>
+          </ng-template>
+        </ionic-selectable>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="sector && sector.length > 0">
+      <ion-item-divider color="primary"
+        >{{ "os_form.plague_identification" | translate }}</ion-item-divider
+      >
+      <ion-item no-padding>
+        <ion-label>{{ "os_form.plagues_found" | translate }}</ion-label>
+        <ion-checkbox
+          item-right
+          secondary
+          [(ngModel)]="hasPlagues"
+          (ionChange)="sector_plagues = []; placesFound = [0]"
+        ></ion-checkbox>
+      </ion-item>
+      <ng-template [ngIf]="hasPlagues">
+        <ng-template ngFor let-pgFound [ngForOf]="placesFound" let-i="index">
+          <button
+            class="remove-item"
+            *ngIf="i > 0"
+            ion-button
+            small
+            item-right
+            icon-only
+            (click)="placesFound.splice(i, 1)"
+          >
+            <ion-icon name="md-close"></ion-icon>
+          </button>
+          <ion-card class="inner-card">
+            <ion-item no-padding no-lines class="no-border" *ngIf="hasPlagues">
+              <ion-label stacked
+                >{{ 'os_form.local_sector' | translate }}</ion-label
+              >
+              <ionic-selectable
+                placeholder="{{ 'select' | translate }}"
+                item-content
+                [isMultiple]="false"
+                [(ngModel)]="sector_plagues[i]"
+                [items]="getSectorsWithoutPlages(sector)"
+                itemValueField="id"
+                itemTextField="name"
+                [canSearch]="true"
+                searchPlaceholder="Buscar"
+                searchFailText="Nenhum item encontrado..."
+                (onChange)="portChange($event)"
+              >
+              </ionic-selectable>
+            </ion-item>
+
+            <ion-item
+              *ngIf="!sector_plagues[i]?.length"
+              no-lines
+              no-padding
+              no-margin
+              class="inner-card-button"
+            >
+              <button
+                item-right
+                ion-button
+                big
+                color="primary"
+                (click)="
+                  openPestSelector(i, target.plague_species, sector_plagues[i])
+                "
+              >
+                {{ "os_form.inform_plagues" | translate }}
+              </button>
+            </ion-item>
+
+            <ion-list
+              *ngIf="
+                sector_plagues[i] &&
+                sector_plagues[i]['plagues'] &&
+                sector_plagues[i]['plagues'].length
+              "
+            >
+              <ion-item
+                *ngFor="let pest of sector_plagues[i]['plagues']; let a = index"
+              >
+                <ion-icon name="bug" item-start></ion-icon>
+                <h2>{{ pest.name }}</h2>
+                <p *ngIf="pest.dead && pest.dead > 0">
+                  <strong>{{ "os_form.dead" | translate }}: </strong>{{
+                  pest.dead }}
+                </p>
+                <p *ngIf="pest.live && pest.live > 0">
+                  <strong>{{ "os_form.live" | translate }}: </strong>{{
+                  pest.live }}
+                </p>
+                <button
+                  ion-button
+                  clear
+                  item-end
+                  (click)="sector_plagues[i]['plagues'].splice(a, 1)"
+                >
+                  Remover
+                </button>
+              </ion-item>
+            </ion-list>
+          </ion-card>
+
+          <ion-grid
+            *ngIf="
+              sector_plagues[i] &&
+              sector_plagues[i]['plagues'] &&
+              sector_plagues[i]['plagues'].length &&
+              i == placesFound.length - 1 &&
+              getSectorsWithoutPlages(sector).length
+            "
+            padding
+          >
+            <ion-row>
+              <ion-col col-12
+                ><button ion-button full color="primary" (click)="addPlace()">
+                  {{ "os_form.new_local" | translate }}
+                </button></ion-col
+              >
+            </ion-row>
+          </ion-grid>
+        </ng-template>
+      </ng-template>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="sector && sector.length > 0">
+      <ion-item-divider color="primary">
+        {{ "os_form.traces_identification" | translate }}
+      </ion-item-divider>
+      <ion-item no-padding>
+        <ion-label>{{ "os_form.traces_found_question" | translate }}</ion-label>
+        <ion-checkbox
+          item-right
+          secondary
+          [(ngModel)]="hasTraces"
+          (ionChange)="tracesArray = []"
+        ></ion-checkbox>
+      </ion-item>
+
+      <ion-item
+        no-padding
+        no-lines
+        class="no-border"
+        *ngIf="hasTraces && target && target.traces"
+      >
+        <ion-label stacked>{{ "os_form.trace_found" | translate }}</ion-label>
+        <ionic-selectable
+          placeholder="{{ 'select' | translate }}"
+          item-content
+          [isMultiple]="true"
+          [(ngModel)]="tracesSelect"
+          [items]="target.traces"
+          itemValueField="id"
+          itemTextField="name"
+          [canSearch]="true"
+          searchPlaceholder="{{ 'search' | translate }}"
+          searchFailText="{{ 'no_items_found' | translate }}"
+          (onChange)="portChange($event)"
+        ></ionic-selectable>
+      </ion-item>
+
+      <ion-item no-padding no-lines class="no-border" *ngIf="hasTraces">
+        <ion-label stacked>{{ "os_form.local_sector" | translate }}</ion-label>
+        <ionic-selectable
+          placeholder="{{ 'select' | translate }}"
+          item-content
+          [isMultiple]="true"
+          [(ngModel)]="placeVestigio"
+          [items]="sector"
+          itemValueField="id"
+          itemTextField="name"
+          [canSearch]="true"
+          searchPlaceholder="{{ 'search' | translate }}"
+          searchFailText="{{ 'no_items_found' | translate }}"
+          (onChange)="portChange($event)"
+          #tracesComponent
+        >
+          <ng-template ionicSelectableFooterTemplate>
+            <ion-toolbar>
+              <ion-row>
+                <ion-col>
+                  <button
+                    ion-button
+                    full
+                    (click)="toggleCustomItems(tracesComponent)"
+                  >
+                    {{(tracesComponent.itemsToConfirm.length ?
+                    'os_form.uncheck_all' : 'os_form.check_all') | translate}}
+                  </button>
+                </ion-col>
+                <ion-col>
+                  <button
+                    ion-button
+                    full
+                    (click)="confirmCustom(tracesComponent)"
+                  >
+                    {{'ok' | translate}}
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-toolbar>
+          </ng-template>
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-grid *ngIf="hasTraces" padding>
+        <ion-row>
+          <ion-col col-12
+            ><button
+              ion-button
+              full
+              [disabled]="!tracesSelect || !placeVestigio"
+              color="primary"
+              (click)="
+                addVestigio(tracesSelect, placeVestigio);
+                tracesSelect = '';
+                placeVestigio = ''
+              "
+            >
+              {{'save' | translate}}
+            </button></ion-col
+          >
+        </ion-row>
+      </ion-grid>
+
+      <ion-list *ngIf="tracesArray?.length">
+        <ion-item *ngFor="let evidence of tracesArray; let i = index">
+          <ion-icon name="md-warning" item-start></ion-icon>
+          <h2>{{'os_form.traces_found' | translate}}</h2>
+          <p class="devices-wrap">
+            <strong>{{'os_form.traces' | translate}}: </strong
+            ><span *ngFor="let item of evidence.evidences; let b = index"
+              >{{ item.name }}{{ b != evidence.evidences.length - 1 ? ", " : ""
+              }}</span
+            >
+          </p>
+          <p *ngFor="let place of evidence.places">
+            <strong>{{'os_form.local' | translate}}: </strong>{{ place.name }}
+          </p>
+          <button ion-button clear item-end (click)="tracesArray.splice(i, 1)">
+            {{'remove' | translate}}
+          </button>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+
+    <ion-item-group
+      *ngIf="
+        sector &&
+        sector.length > 0 &&
+        target &&
+        target.products &&
+        activity != 'inspection'
+      "
+    >
+      <ion-item-divider color="primary">
+        {{'os_form.products' | translate}}
+      </ion-item-divider>
+
+      <ion-item no-padding>
+        <ion-label
+          >{{'os_form.products_applied_question' | translate}}</ion-label
+        >
+        <ion-checkbox
+          item-right
+          secondary
+          name="hasProducts"
+          (ionChange)="productsArray = []; resetForm(productForm)"
+          [(ngModel)]="hasProducts"
+        ></ion-checkbox>
+      </ion-item>
+
+      <div *ngIf="hasProducts">
+        <form #productForm="ngForm">
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked
+              >{{'os_form.application_locals' | translate}}</ion-label
+            >
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              item-content
+              [isMultiple]="true"
+              name="placeProduct"
+              [(ngModel)]="placeProduct"
+              [items]="sector"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+              (onChange)="portChange($event)"
+              #productsComponent
+            >
+              <ng-template ionicSelectableFooterTemplate>
+                <ion-toolbar>
+                  <ion-row>
+                    <ion-col>
+                      <button
+                        ion-button
+                        full
+                        (click)="toggleCustomItems(productsComponent)"
+                      >
+                        {{(productsComponent.itemsToConfirm.length ?
+                        'os_form.uncheck_all' : 'os_form.check_all') |
+                        translate}}
+                      </button>
+                    </ion-col>
+                    <ion-col>
+                      <button
+                        ion-button
+                        full
+                        (click)="confirmCustom(productsComponent)"
+                      >
+                        {{'ok' | translate}}
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-toolbar>
+              </ng-template>
+            </ionic-selectable>
+          </ion-item>
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked>{{'os_form.product' | translate}}</ion-label>
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              item-content
+              [isMultiple]="false"
+              name="product"
+              [(ngModel)]="product"
+              [items]="getOrdenedProducts(target.products)"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+            >
+            </ionic-selectable>
+          </ion-item>
+
+          <ion-grid padding class="fields-grid" *ngIf="product">
+            <ion-row>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_form.diluent_unit' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="unity"
+                    (ionChange)="changeProductQty(product, unity, amountField)"
+                    required
+                    name="unity"
+                  ></ion-input>
+                  <!--<span item-right class="measure-label">{{product.measure}}</span>-->
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_form.amount' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="tel"
+                    readonly
+                    [(ngModel)]="amount"
+                    #amountField
+                    required
+                    name="amount"
+                  ></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked>{{'os_form.lote' | translate}}</ion-label>
+                  <ion-input
+                    type="text"
+                    [(ngModel)]="lote"
+                    required
+                    name="lote"
+                  ></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-6 no-padding>
+                <ion-item no-padding no-lines class="no-border" (click)="setValidDate()">
+                  <ion-label stacked
+                    >{{'os_form.validity' | translate}}</ion-label
+                  >
+                  <ion-datetime
+                    cancelText="{{'cancel' | translate}}"
+                    required
+                    doneText="{{'confirm' | translate}}"
+                    displayFormat="DD/MM/YYYY"
+                    [min]="currentDate"
+                    [max]="maxyear"
+                    [(ngModel)]="validDate"
+                    name="validDate"
+                  ></ion-datetime>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-item no-padding no-lines class="no-border" *ngIf="product">
+            <ion-label stacked
+              >{{'os_form.application_mode' | translate}}</ion-label
+            >
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              item-content
+              [isMultiple]="false"
+              name="equipment"
+              [(ngModel)]="equipment"
+              [items]="equipments"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+            >
+            </ionic-selectable>
+          </ion-item>
+
+          <ion-grid
+            padding
+            class="fields-grid"
+            *ngIf="product && equipment?.has_volume"
+          >
+            <ion-row>
+              <ion-col col-12 no-padding>
+                <ion-item no-padding no-lines class="no-border">
+                  <ion-label stacked
+                    >{{'os_form.application_volume' | translate}}</ion-label
+                  >
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="application_volume"
+                    required
+                    name="application_volume"
+                  ></ion-input>
+                  <!--<span item-right class="measure-label">{{product.measure}}</span>-->
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-grid padding>
+            <ion-row>
+              <ion-col no-padding col-12
+                ><button
+                  ion-button
+                  full
+                  [disabled]="productForm.invalid"
+                  color="primary"
+                  (click)="addProduct(productForm)"
+                >
+                  {{'save' | translate}}
+                </button></ion-col
+              >
+            </ion-row>
+          </ion-grid>
+        </form>
+      </div>
+
+      <ion-list *ngIf="productsArray?.length">
+        <ion-item
+          *ngFor="let product of productsArray; let i = index"
+          text-wrap
+        >
+          <ion-icon name="md-alert" item-start></ion-icon>
+          <h2>{{'os_form.products_applied' | translate}}</h2>
+          <p>
+            <strong>{{'os_form.product' | translate}}: </strong>{{
+            product.product.name }}
+          </p>
+          <p *ngFor="let place of product.placeProduct">
+            <strong>{{'os_form.local' | translate}}: </strong>{{ place.name }}
+          </p>
+          <p>
+            <strong>{{'os_form.diluent_unit' | translate}}: </strong>{{
+            product.unity }}
+          </p>
+          <p>
+            <strong>{{'os_form.amount' | translate}}: </strong>{{ product.amount
+            }}
+          </p>
+          <p>
+            <strong>{{'os_form.lote' | translate}}: </strong>{{ product.lote }}
+          </p>
+          <p>
+            <strong>{{'os_form.validity' | translate}}: </strong>{{
+            product.validDate | date: "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>{{'os_form.application_mode' | translate}}: </strong>{{
+            product.equipment.name }}
+          </p>
+          <p *ngIf="product.application_volume">
+            <strong>{{'os_form.application_volume' | translate}}: </strong>{{
+            product.application_volume }}
+          </p>
+
+          <button
+            ion-button
+            clear
+            item-end
+            (click)="productsArray.splice(i, 1)"
+          >
+            {{'remove' | translate}}
+          </button>
+        </ion-item>
+      </ion-list>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="sector && sector.length > 0">
+      <ion-item-divider color="primary">
+        {{'os_form.device_review' | translate}}
+      </ion-item-divider>
+      <ion-item no-padding>
+        <ion-label>{{'os_form.device_review_question' | translate}}</ion-label>
+        <ion-checkbox
+          item-right
+          secondary
+          [(ngModel)]="hasDevices"
+        ></ion-checkbox>
+      </ion-item>
+      <form #devicesForm="ngForm">
+        <ion-item no-padding no-lines class="no-border" *ngIf="hasDevices">
+          <ion-label stacked>{{'os_form.devices' | translate}}</ion-label>
+          <ionic-selectable
+            placeholder="{{'select' | translate}}"
+            required
+            name="dispositivo"
+            item-content
+            [isMultiple]="false"
+            [(ngModel)]="device"
+            [items]="devices"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            [disabled]="isEditingDevices"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+            (onChange)="portChange($event)"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border number-input"
+          *ngIf="hasDevices && device && device.statuses"
+        >
+          <ion-label stacked
+            >{{'os_form.installed_amount' | translate}}</ion-label
+          >
+          <ion-input
+            type="number"
+            [(ngModel)]="installed_amount"
+            [disabled]="isEditingDevices"
+            required
+            name="installed_amount"
+          ></ion-input>
+        </ion-item>
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="hasDevices && device && device.statuses"
+        >
+          <ion-label stacked>Status</ion-label>
+          <ionic-selectable
+            placeholder="{{'select' | translate}}"
+            required
+            name="state"
+            #device_state
+            item-content
+            [isMultiple]="false"
+            [(ngModel)]="state"
+            [items]="device.statuses"
+            itemValueField="id"
+            itemTextField="name"
+            [canSearch]="true"
+            searchPlaceholder="{{'search' | translate}}"
+            searchFailText="{{'no_items_found' | translate}}"
+          >
+          </ionic-selectable>
+        </ion-item>
+        <input
+          type="hidden"
+          [(ngModel)]="devices"
+          name="devices"
+          #devicesField
+          required
+        />
+        <ion-item
+          no-padding
+          no-lines
+          class="no-border"
+          *ngIf="hasDevices && installed_amount > 0"
+        >
+          <button
+            ion-button
+            full
+            color="primary"
+            [disabled]="installed_amount <= 0 || !state"
+            (click)="
+              isEditingDevices = true;
+              openDeviceChecker(installed_amount, devicesForm, device, state)
+            "
+          >
+            {{'os_form.tag_devices' | translate}}
+          </button>
+        </ion-item>
+        <p
+          *ngIf="
+            device &&
+            device.id &&
+            deviceMaker &&
+            deviceMaker.length &&
+            getDevicesUnconfirmed(deviceMaker) > 0
+          "
+          [translate]="'os_form.device_warning'"
+          [translateParams]="{value: getDevicesUnconfirmed(deviceMaker)}"
+          padding-horizontal
+        ></p>
+      </form>
+      <ion-grid
+        padding
+        *ngIf="
+          hasDevices && device && device.id && deviceMaker && deviceMaker.length
+        "
+      >
+        <ion-row>
+          <ion-col padding col-12
+            ><button
+              [disabled]="devicesForm.invalid"
+              ion-button
+              [disabled]="getDevicesUnconfirmed(deviceMaker) > 0"
+              full
+              color="primary"
+              (click)="
+                addDevices(devicesForm, device, state); isEditingDevices = false
+              "
+            >
+              {{'save' | translate}}
+            </button></ion-col
+          >
+        </ion-row>
+      </ion-grid>
+
+      <ion-list *ngIf="devicesArray?.length" padding>
+        <ion-card
+          ion-item
+          class="inner-card"
+          *ngFor="let device of devicesArray; let i = index"
+        >
+          <button
+            class="remove-item"
+            ion-button
+            small
+            item-right
+            icon-only
+            (click)="devicesArray.splice(i, 1)"
+          >
+            <ion-icon name="md-close"></ion-icon>
+          </button>
+          <ion-card-header> {{ device.name }} </ion-card-header>
+          <ion-item *ngFor="let status of device.statuses">
+            <ion-icon name="md-alert" item-start></ion-icon>
+            <h2>{{ status.name }}</h2>
+            <p class="devices-wrap">
+              <strong>Dispositivos: </strong>
+              <span *ngFor="let dd of status.installed; let b = index">
+                {{ dd.name }}{{ b == status.installed.length - 1 ? "." : "," }}
+              </span>
+            </p>
+          </ion-item>
+        </ion-card>
+      </ion-list>
+    </ion-item-group>
+
+    <button
+      *ngIf="target && activity && sector && sector.length"
+      ion-button
+      block
+      large
+      color="primary"
+      [disabled]="
+        !target ||
+        !sector ||
+        (hasDevices && !devicesArray.length) ||
+        (hasProducts && !productsArray.length) ||
+        (hasTraces && !tracesArray.length) ||
+        (hasPlagues && !allPlacesHasPlagues())
+      "
+      (click)="save()"
+    >
+      {{'save' | translate}}
+    </button>
+  </ion-list>
+</ion-content>

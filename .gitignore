@@ -1,0 +1,21 @@
+# Intermediate and temporary reverse engineering files
+apktool_base/
+apktool_pt/
+apktool_xxhdpi/
+unpacked_base/
+extracted_apks/
+extracted_templates.json
+Pest21-unaligned.apk
+Pest21-aligned-debugSigned.apk*
+*.idsig
+
+# Node & package dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

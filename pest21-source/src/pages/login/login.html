@@ -1,0 +1,36 @@
+<ion-content padding class="login-content" fullscreen>
+  <div class="container" ion-fixed>
+    <button class="language-selector" ion-button color="transparent" (click)="showRadio()">{{translate.currentLang == 'pt-br' ? 'PT' : translate.currentLang}}</button>
+  <ion-list scroll="false" class="login-list">
+    <div class="hide-keyboard">
+      <img src="assets/imgs/pests.png" class="logo">
+      <p [innerHTML]="'login.lettering' | translate"></p>
+     </div>
+    <!----><form (submit)="onSubmit()" #loginForm="ngForm" novalidate>
+     <ion-item >
+        <span item-left class="login-icon"><img src="assets/icon/ic_cpf.png" alt="" width="14" height="18"></span>
+        <ion-label floating>{{'login.user' | translate}}</ion-label>
+        <ion-input id="txtUser" autocapitalize="none"  type="email" name="username" [(ngModel)]="username" required minlength="3" #usernameField="ngModel"
+        [ngClass]="{'no-validate': usernameField.touched && usernameField.errors}"></ion-input>
+     </ion-item>
+     <ion-item class="login-tip" *ngIf="usernameField.touched && usernameField.errors">
+        <span>{{'login.invalid_user' | translate}}</span>
+      </ion-item>
+      <ion-item>
+        <span item-left class="login-icon"><img src="assets/icon/ic_senha.png" alt="" width="12" height="16"></span>
+        <ion-label floating>{{'login.password' | translate}}</ion-label>
+        <ion-input id="txtPassword" type="password" name="password" [(ngModel)]="password" required minlength="3" #passwordField="ngModel"
+        [ngClass]="{'no-validate': passwordField.touched && passwordField.errors}"></ion-input>
+      </ion-item>
+      <ion-item class="login-tip" *ngIf="passwordField.touched && passwordField.errors">
+        <span>{{'login.invalid_password' | translate}}</span>
+      </ion-item>
+
+      <a block class="link-login" color="dark" clear (click)="forgotPassword()">{{'login.forgot_password' | translate}}</a>
+
+      <button ion-button block id="btnSignIn" type="submit" class="btn" [disabled]="loginForm.invalid" [ngClass]="{'btn-inactive': loginForm.invalid, 'btn-active': loginForm.valid}" margin-top>{{'login.enter' | translate}}</button>
+
+    </form>
+  </ion-list>
+</div>
+</ion-content>

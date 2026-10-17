@@ -1,0 +1,417 @@
+<!--
+  Generated template for the ServiceOrderResumePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header class="blue-nav">
+  <ion-navbar color="primary">
+    <ion-title>Edição de Espelho de Rota</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card no-padding class="card-order">
+    <ion-card-header lines color="primary"> Dados do Cliente </ion-card-header>
+
+    <ion-grid class="table-order" *ngIf="client && client.client">
+      <ion-row>
+        <ion-col col-4>JDE/{{'client_code' | translate}}:</ion-col>
+        <ion-col col-8>{{client.client.code}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'fantasy_name' | translate}}:</ion-col>
+        <ion-col col-8>{{client.client.fantasy_name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>CPF/CNPJ:</ion-col>
+        <ion-col col-8>{{client.client.document}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'address' | translate}}:</ion-col>
+        <ion-col col-8>{{client.client.street}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'number' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{client.client.number ? client.client.number : " - "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'complement' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{client.client.complement ? client.client.complement : " -
+          "}}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'neighborhood' | translate}}:</ion-col>
+        <ion-col col-8
+          >{{client.client.district ? client.client.district : " - " }}</ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'city' | translate}}:</ion-col>
+        <ion-col col-8>{{client.client.city}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>{{'state' | translate}}:</ion-col>
+        <ion-col col-8>{{client.client.state}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card no-padding class="card-order" *ngIf="client && client.client">
+    <ion-card-header lines color="primary">
+      {{'clients_detail.contacts_information' | translate}}
+      ({{client.client.contacts.length}})
+      <button
+        ion-button
+        icon-only
+        small
+        round
+        item-right
+        (click)="startAddContact()"
+      >
+        <ion-icon [name]="adding_contact ? 'close' : 'add'"></ion-icon>
+      </button>
+    </ion-card-header>
+    <form #formAdd="ngForm" *ngIf="adding_contact">
+      <ion-list padding>
+        <ion-item-group>
+          <ion-item-divider color="primary">
+            {{'clients_detail.add_contact' | translate}}</ion-item-divider
+          >
+          <ion-item no-padding no-lines>
+            <ion-label stacked>{{'clients_detail.name' | translate}}</ion-label>
+            <ion-input
+              type="text"
+              name="name"
+              required
+              [(ngModel)]="adding.name"
+            ></ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-label stacked>E-mail</ion-label>
+            <ion-input
+              type="email"
+              name="email"
+              required
+              [(ngModel)]="adding.email"
+            ></ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-label stacked>Tel. Fixo</ion-label>
+            <ion-input
+              type="tel"
+              name="telephone"
+              [brmasker]="{phone: true}"
+              [(ngModel)]="adding.telephone"
+            >
+            </ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-label stacked>Celular</ion-label>
+            <ion-input
+              type="tel"
+              name="cellphone"
+              required
+              [brmasker]="{phone: true}"
+              [(ngModel)]="adding.cellphone"
+            >
+            </ion-input>
+          </ion-item>
+          <button
+            ion-button
+            margin-vertical
+            full
+            [disabled]="formAdd.invalid"
+            color="primary"
+            (click)="addContact()"
+          >
+            SALVAR CONTATO
+          </button>
+        </ion-item-group>
+      </ion-list>
+    </form>
+
+    <div *ngIf="!adding_contact">
+      <ion-grid
+        class="table-order"
+        *ngFor="let contact of client.client.contacts; let i = index"
+      >
+        <ion-row class="header-how" no-padding>
+          <ion-col col-12>Contato #{{i + 1}}:</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Nome:</ion-col>
+          <ion-col col-8>{{contact.name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>E-mail:</ion-col>
+          <ion-col col-8>{{contact.email}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Telefone fixo:</ion-col>
+          <ion-col col-8>{{contact.telephone}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>Celular:</ion-col>
+          <ion-col col-8>{{contact.cellphone}}</ion-col>
+        </ion-row>
+
+        <ion-row>
+          <button
+            ion-button
+            full
+            color="danger"
+            (click)="removeContact(i, contact)"
+          >
+            REMOVER
+          </button>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card>
+  <ion-card no-padding class="card-order" *ngIf="client && client.client">
+    <ion-card-header lines color="primary"> Escopo do Cliente </ion-card-header>
+
+    <ion-grid class="table-order">
+      <ion-row>
+        <ion-col col-4>Programa:</ion-col>
+        <ion-col col-8>-</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Serviço:</ion-col>
+        <ion-col col-8>-</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Cobertura de Pragas:</ion-col>
+        <ion-col col-8>-</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Frequência:</ion-col>
+        <ion-col col-8>{{client?.frequency_info?.name}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Tempo de Atendimento:</ion-col>
+        <ion-col col-8>{{ client.attendance_time ? client.attendance_time + ' min' : '-' }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>Tempo de Deslocamento:</ion-col>
+        <ion-col col-8>{{ client.displacement_time ? client.displacement_time + ' min' : '-' }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <ion-card
+    no-padding
+    class="card-order devices-card"
+    *ngIf="client && client.client"
+  >
+    <ion-card-header lines color="primary">
+      Dispositivos ({{client.client?.client_devices?.length}})
+      <button
+        ion-button
+        icon-only
+        small
+        round
+        item-right
+        (click)="startAddDevice()"
+      >
+        <ion-icon [name]="adding_device ? 'close' : 'add'"></ion-icon>
+      </button>
+    </ion-card-header>
+
+    <form #deviceForom="ngForm" *ngIf="adding_device">
+      <ion-list padding>
+        <ion-item-group>
+          <ion-item-divider color="primary"
+            >Adicionar Dispositivo</ion-item-divider
+          >
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked>Dispositivo</ion-label>
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              name="device_type"
+              item-content
+              [isMultiple]="false"
+              [(ngModel)]="addingDevice.device_type"
+              [items]="available_devices"
+              [disabledItems]="disabled_devices"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+              (onChange)="portChange($event)"
+            >
+            </ionic-selectable>
+          </ion-item>
+          <ion-item no-padding no-lines class="no-border number-input">
+            <ion-label stacked
+              >{{'os_form.installed_amount' | translate}}</ion-label
+            >
+            <ion-input
+              type="number"
+              [(ngModel)]="addingDevice.amount"
+              required
+              [disabled]="!addingDevice.device_type"
+              name="amount"
+            ></ion-input>
+          </ion-item>
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked>Freq. de Monitoramento</ion-label>
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              required
+              name="frequency_type"
+              item-content
+              [isMultiple]="false"
+              [(ngModel)]="addingDevice.frequency_type"
+              [items]="available_frequencies"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+              (onChange)="portChange($event)"
+            >
+            </ionic-selectable>
+          </ion-item>
+          <ion-item no-padding no-lines>
+            <ion-label stacked>Observações</ion-label>
+            <ion-textarea
+              placeholder="{{'notes' | translate }}"
+              [(ngModel)]="addingDevice.comments"
+              name="comments"
+            >
+            </ion-textarea>
+          </ion-item>
+          <button
+            ion-button
+            margin-vertical
+            full
+            [disabled]="deviceForom.invalid"
+            color="primary"
+            (click)="addDevice()"
+          >
+            SALVAR DISPOSITIVO
+          </button>
+        </ion-item-group>
+      </ion-list>
+    </form>
+
+    <ion-slides pager *ngIf="!adding_device">
+      <ion-slide
+        *ngFor="let device of client.client.client_devices; let i = index"
+      >
+        <ion-card class="card-order">
+          <ion-card-header lines color="primary">
+            Dispositivo {{i + 1}}/{{client.client.client_devices.length}}
+            <button
+              ion-button
+              icon-only
+              small
+              round
+              item-right
+              color="danger"
+              (click)="removeDevice(i, device)"
+            >
+              <ion-icon name="remove"></ion-icon>
+            </button>
+          </ion-card-header>
+          <ion-grid class="table-order">
+            <ion-row>
+              <ion-col col-12>
+                <p><strong>Tipo</strong></p>
+                {{device.device_type.name}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-12>
+                <p><strong>Quantidade</strong></p>
+                {{device.amount}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-12>
+                <p><strong>Freq. Monitoramento</strong></p>
+                {{device.frequency_type.name}}
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-12>
+                <p><strong>Observações</strong></p>
+                {{device.comments}}
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </ion-card>
+  <ion-card no-padding class="card-order" *ngIf="client && client.client">
+    <ion-card-header lines color="primary"> Dados Adicionais </ion-card-header>
+
+    <form #dataForm="ngForm">
+      <ion-grid class="table-order">
+        <ion-row>
+          <ion-col col-12><strong>Particularidades da Agenda</strong></ion-col>
+
+          <ion-col col-12 padding>
+            <ul no-padding>
+              <li *ngFor="let peculiarity of client.client.peculiarities">
+                {{peculiarity.peculiarity.description}}
+              </li>
+            </ul>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="available_audits && available_audits.length">
+          <ion-item no-padding no-lines class="no-border">
+            <ion-label stacked
+              >Cliente Recebe Auditorias e/ou Certificações?</ion-label
+            >
+            <ionic-selectable
+              placeholder="{{'select' | translate}}"
+              item-content
+              [isMultiple]="true"
+              name="client_audits"
+              [(ngModel)]="client.client.client_audits"
+              [items]="available_audits"
+              itemValueField="audit_id"
+              itemTextField="name"
+              [canSearch]="true"
+              (onChange)="auditsChange($event)"
+              searchPlaceholder="{{'search' | translate}}"
+              searchFailText="{{'no_items_found' | translate}}"
+            >
+            </ionic-selectable>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item no-padding no-lines class="no-border number-input">
+            <ion-label stacked>Anotações do Técnico</ion-label>
+            <ion-textarea
+              placeholder="Anotações do Técnico"
+              [(ngModel)]="client.client.peculiarity_description"
+              name="peculiarity_description"
+            ></ion-textarea>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <button
+              ion-button
+              block
+              color="primary"
+              [disabled]="dataForm.invalid"
+              (click)="save(dataForm)"
+            >
+              SALVAR
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-card>
+</ion-content>

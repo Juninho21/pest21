@@ -1,0 +1,178 @@
+// Styles for page-calendar
+page-calendar .pending {
+  opacity: 0.8;
+}
+
+page-calendar .rejected {
+  opacity: 0.8;
+  background: #333;
+  color: #fff;
+}
+
+page-calendar .type_contract {
+  background: blue;
+  color: #fff;
+}
+
+page-calendar .type_single {
+  background: green;
+  color: #fff;
+}
+
+page-calendar .type_emergency {
+  background: red;
+  color: #fff;
+}
+
+page-calendar .type_travel {
+  background: orange;
+  word-break: break-all;
+  display: none;
+}
+
+page-calendar .type_interval {
+  background: purple;
+  color: #fff;
+}
+
+page-calendar .type_vacation {
+  background: violet;
+  color: #fff;
+}
+
+page-calendar .type_implementation {
+  background: brown;
+  color: #fff;
+}
+
+page-calendar .type_third_parties {
+  background: grey;
+  color: #000;
+}
+
+page-calendar .reload-button {
+  font-size: 20px;
+}
+
+page-calendar .calendar-title {
+  width: 100%;
+  margin: 0;
+  line-height: 35px;
+  font-size: 18px;
+  height: 35px;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+page-calendar .weekview-normal-event-container .calendar-event > div {
+  -webkit-writing-mode: horizontal-tb !important;
+  -ms-writing-mode: lr-tb !important;
+  writing-mode: horizontal-tb !important;
+}
+
+page-calendar .monthview-primary-with-event {
+  background-color: green !important;
+  color: white;
+}
+
+page-calendar .calendar-event > div {
+  height: 100%;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+page-calendar .calendar-event .calendar-event-inner {
+  background: red;
+  font-size: 10px;
+}
+
+page-calendar .calendar-event .type_2 {
+  background: green;
+  color: #fff;
+}
+
+page-calendar .calendar-event .type_1 {
+  background: blue;
+}
+
+page-calendar .calendar-event .type_3 {
+  background: red;
+  color: #fff;
+}
+
+page-calendar .calendar-event .type_4 {
+  background: orange;
+  font-size: 10px;
+  word-break: break-all;
+}
+
+page-calendar .calendar-event .type_5 {
+  background: purple;
+  color: #fff;
+}
+
+page-calendar .dayview-normal-event-container {
+  margin-top: 0 !important;
+}
+
+page-calendar .card-order {
+  border-radius: 15px;
+  margin-bottom: 45px !important;
+}
+
+page-calendar .card-order ion-card-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+page-calendar .card-order.type_4 {
+  margin-bottom: -16px !important;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-bottom: 15px !important;
+}
+
+page-calendar .table-order {
+  padding: 0;
+}
+
+page-calendar .table-order ion-row {
+  border-bottom: 1px solid #eee;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+page-calendar .table-order ion-row ion-col.title {
+  font-weight: bold;
+}
+
+page-calendar .weekview-allday-table {
+  display: none;
+}
+
+page-calendar .dayview-allday-table {
+  display: none;
+}
+
+page-calendar init-position-scroll {
+  margin-top: 38px !important;
+}
